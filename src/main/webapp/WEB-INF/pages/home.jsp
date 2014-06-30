@@ -21,7 +21,18 @@
             top: 0;
             bottom: 0;
             left: 0;
-            right: 0;
+            right: 50%;
+            font-size: 16px;
+        }
+
+        #viewer {
+            margin: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            right: 10px;
+            background: #ccc;
         }
     </style>
 </head>
@@ -41,20 +52,22 @@
     console.log(marked('I am using __markdown__.'));
 </script>
 
-<div id="editor">
-/**
- * This is Ace injected using a bookmarklet.
- */
-function foo() {
-    var bar = true;
-}
-</div>
+<div id="editor"></div>
+<div id="viewer"></div>
+
 <script src="<%= request.getContextPath() %>/js/ace/ace.js"
         type="text/javascript" charset="utf-8"></script>
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/javascript");
+    editor.getSession().setMode("ace/mode/text");
+    editor.setPrintMarginColumn(80);
+    var doc = editor.getSession().doc;
+    doc.on('change', function(e) {
+        var txt = editor.getValue();
+        var html = marked(txt);
+        document.getElementById("viewer").innerHTML = html;
+    })
 </script>
 </body>
 </html>
