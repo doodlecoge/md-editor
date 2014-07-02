@@ -11,19 +11,13 @@
 <html>
 <head>
     <title><decorator:title/> - Huaichao</title>
+    <link type="text/css" rel="stylesheet"
+          href="<%= request.getContextPath() %>/css/site.css"/>
     <script type="text/javascript"
-            src="<%= request.getContextPath() %>/js/marked.js"/>
+            src="<%= request.getContextPath() %>/js/marked.js"></script>
     <script type="text/javascript"
             src="<%= request.getContextPath() %>/js/jquery-1.11.1.js"></script>
-    <style type="text/css">
-        body {
-            font-family: arial, "微软雅黑", "宋体", Tahoma, Geneva, sans-serif;
-            padding: 0 5px;
-        }
-    </style>
     <decorator:head/>
 </head>
-<body>
-<decorator:body/>
-</body>
+<body><decorator:body/></body>
 </html>
