@@ -127,7 +127,7 @@
             box-sizing: border-box;
         }
 
-        #designer {
+        #content {
             position: absolute;
             background: #ddd;
             top: 46px;
@@ -136,7 +136,35 @@
             bottom: 0;
         }
 
-        #designer .editor {
+        #content .directories {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 190px;
+            background: #fefefe;
+            border-right: 1px solid #aaa;
+        }
+
+        #content .designer {
+            position: absolute;
+            background: #ddd;
+            top: 0;
+            right: 0;
+            left: 200px;
+            bottom: 0;
+        }
+
+
+        #content.a .directories {
+            left: -10000;
+        }
+
+        #content.a .designer {
+            left: -1px;
+        }
+
+        #content .designer .editor {
             position: absolute;
             top: 0;
             right: 50%;
@@ -145,10 +173,11 @@
             bottom: 0;
             background: #fefefe;
             border-right: 1px solid #aaa;
+            border-left: 1px solid #aaa;
             font-size: 16px;
         }
 
-        #designer .viewer {
+        #content .designer .viewer {
             position: absolute;
             top: 0;
             left: 50%;
@@ -162,6 +191,7 @@
         }
 
 
+
     </style>
 </head>
 <body>
@@ -171,6 +201,7 @@
         <tr>
             <td style="width: 0;">
                 <ul>
+                    <li class="fa fa-angle-double-left"></li>
                     <li class="fa fa-save"></li>
                     <li class="fa fa-trash-o"></li>
                 </ul>
@@ -191,7 +222,7 @@
 
 <div id="content">
     <div class="directories"></div>
-    <div id="designer">
+    <div class="designer">
         <div class="editor"></div>
         <div class="viewer"></div>
     </div>
@@ -220,7 +251,22 @@
         var txt = editor.getValue();
         var html = marked(txt);
         $(".viewer").html(html);
-    })
+    });
+
+    $(function () {
+        $("li:first").click(function () {
+            var b = $(this).hasClass("fa-angle-double-left");
+            if(b) {
+                $(this).removeClass("fa-angle-double-left");
+                $(this).addClass("fa-angle-double-right");
+                $("#content").addClass("a");
+            } else {
+                $(this).removeClass("fa-angle-double-right");
+                $(this).addClass("fa-angle-double-left");
+                $("#content").removeClass("a");
+            }
+        });
+    });
 </script>
 </body>
 </html>
