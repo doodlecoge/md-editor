@@ -13,6 +13,8 @@
     <title><decorator:title/> - Huaichao</title>
     <link type="text/css" rel="stylesheet"
           href="<%= request.getContextPath() %>/css/site.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="<%= request.getContextPath() %>/css/font-awesome.css"/>
     <script type="text/javascript"
             src="<%= request.getContextPath() %>/js/marked.js"></script>
     <script type="text/javascript"

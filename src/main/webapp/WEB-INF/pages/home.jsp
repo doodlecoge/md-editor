@@ -7,91 +7,196 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!doctype html>
 <html>
 <head>
     <title>Markdown Editor</title>
+
+
     <style type="text/css">
         body {
+            padding: 0;
+            margin: 0;
             overflow: hidden;
-            background: #888;
         }
 
         #tool_bar {
-            position: absolute;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            top: 0px;
-            left: 0px;
-            right: 0px;
-            height: 40px;
-            background: #444;
+            height: 35px;
+            padding: 5px;
+
+            background-color: #eeeeee;
+            background-image: -moz-linear-gradient(#f0f0f0, #ddd);
+            background-image: -webkit-linear-gradient(#f0f0f0, #ddd);
+            background-image: linear-gradient(#f0f0f0, #ddd);
+            background-repeat: repeat-x;
+
+            border-bottom: 1px solid #aaa;
+
+            /*background: #707070;*/
+            /*background: -o-linear-gradient(top, rgba(0, 0, 0, .2) 0, rgba(0, 0, 0, 0) 5%, rgba(0, 0, 0, 0) 97%, rgba(0, 0, 0, .45) 100%), -o-linear-gradient(left, rgba(0, 0, 0, .2) 0, rgba(0, 0, 0, 0) .2%, rgba(0, 0, 0, 0) 99.8%, rgba(0, 0, 0, .2) 100%), url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA9QAAAAkCAMAAABfcIIyAAAAGXRF…x%2BeQqLpPJDae9P5%2FmrVz491%2FWekBlKy7PXVfn9rb9xXsMD2wdOcAAAAAElFTkSuQmCC') no-repeat 50% 50%, -o-linear-gradient(bottom, #666 0, #5e5e5e 50%, #707070 51%, #808080 100%);*/
+            /*background: -moz-linear-gradient(top, rgba(0, 0, 0, .2) 0, rgba(0, 0, 0, 0) 5%, rgba(0, 0, 0, 0) 97%, rgba(0, 0, 0, .45) 100%), -moz-linear-gradient(left, rgba(0, 0, 0, .2) 0, rgba(0, 0, 0, 0) .2%, rgba(0, 0, 0, 0) 99.8%, rgba(0, 0, 0, .2) 100%), url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA9QAAAAkCAMAAABfcIIyAAAAGXRF…x%2BeQqLpPJDae9P5%2FmrVz491%2FWekBlKy7PXVfn9rb9xXsMD2wdOcAAAAAElFTkSuQmCC') no-repeat 50% 50%, -moz-linear-gradient(bottom, #666 0, #5e5e5e 50%, #707070 51%, #808080 100%);*/
+            /*background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, .2)), color-stop(0.05, rgba(0, 0, 0, 0)), color-stop(0.97, rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, .45))), -webkit-gradient(linear, 0 0, 100% 0, from(rgba(0, 0, 0, .2)), color-stop(0.002, rgba(0, 0, 0, 0)), color-stop(0.998, rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, .2))), url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA9QAAAAkCAMAAABfcIIyAAAAGXRF…x%2BeQqLpPJDae9P5%2FmrVz491%2FWekBlKy7PXVfn9rb9xXsMD2wdOcAAAAAElFTkSuQmCC') no-repeat 50% 50%, -webkit-gradient(linear, 0 100%, 0 0, from(#666), color-stop(0.5, #5e5e5e), color-stop(0.51, #707070), to(#808080));*/
+
+            /*-khtml-border-radius: 4px;*/
+            /*-ms-border-radius: 4px;*/
+            /*-o-border-radius: 4px;*/
+            /*-moz-border-radius: 4px;*/
+            /*-webkit-border-radius: 4px;*/
+            /*border-radius: 4px;*/
+        }
+
+        #tool_bar table {
+            padding: 0;
+            margin: 0;
+            border-spacing: 0;
+        }
+
+        #tool_bar table td {
+            padding: 0;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        #tool_bar ul {
             font-size: 0;
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+
+            /*border: 1px solid #ccc;*/
+            /*-khtml-border-radius: 4px;*/
+            /*-ms-border-radius: 4px;*/
+            /*-o-border-radius: 4px;*/
+            /*-moz-border-radius: 4px;*/
+            /*-webkit-border-radius: 4px;*/
+            /*border-radius: 4px;*/
         }
 
-        #title {
+        #tool_bar li {
+            font-size: 18px;
+            list-style: none;
+            display: inline-block;
+            /*padding: 0 5px;*/
+            width: 33px;
+            height: 33px;
+            line-height: 33px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+
+        }
+
+        #tool_bar li:hover {
+            height: 33px;
+            width: 33px;
+            line-height: 33px;
+            border-bottom: 1px solid #888;
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #bbb;
+            border-right: 1px solid #bbb;
+
+            -khtml-border-radius: 3px;
+            -ms-border-radius: 3px;
+            -o-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+
+            background-image: -moz-linear-gradient(#eee, #ddd);
+            background-image: -webkit-linear-gradient(#eee, #ddd);
+            background-image: linear-gradient(#eee, #ddd);
+            background-repeat: repeat-x;
+
+            /*box-shadow:0px 1px 1px #000;*/
+            /*-moz-box-shadow:0px 1px 1px #000;*/
+            /*-webkit-box-shadow:0px 1px 1px #000;*/
+        }
+
+        input.title {
+            width: 100%;
             border: 0;
-            margin: 5px 10px;
-            padding: 0 10px;
-            line-height: 30px;
+            padding: 0 4px;
+            height: 33px;
             outline: none;
-            width: 60%;
+            border: 1px solid #bbb;
+            -moz-border-radius: 3px; /* Gecko browsers */
+            -webkit-border-radius: 3px; /* Webkit browsers */
+            border-radius: 3px; /* W3C syntax */
+            font-size: 16px;
+            font-weight: bold;
+            box-sizing: border-box;
         }
 
-        #editor {
+        #designer {
             position: absolute;
-            margin-right: 5px;
-            top: 50px;
-            left: 10px;
-            bottom: 10px;
+            background: #ddd;
+            top: 46px;
+            right: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        #designer .editor {
+            position: absolute;
+            top: 0;
             right: 50%;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            -webkit-box-flex: 1;
-            -moz-box-flex: 1;
-            -ms-box-flex: 1;
-            -webkit-box-flex: 1;
-            -moz-box-flex: 1;
-            -ms-box-flex: 1;
-            -o-box-flex: 1;
-            box-flex: 1;
+            margin-right: 4px;
+            left: 0;
+            bottom: 0;
+            background: #fefefe;
+            border-right: 1px solid #aaa;
             font-size: 16px;
         }
 
-        #viewer {
+        #designer .viewer {
             position: absolute;
-            margin-left: 5px;
-            top: 50px;
-            right: 10px;
-            bottom: 10px;
+            top: 0;
             left: 50%;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            -webkit-box-flex: 1;
-            -moz-box-flex: 1;
-            -ms-box-flex: 1;
-            -webkit-box-flex: 1;
-            -moz-box-flex: 1;
-            -ms-box-flex: 1;
-            -o-box-flex: 1;
-            box-flex: 1;
-            background: #ccc;
+            margin-left: 4px;
+            right: 0;
+            bottom: 0;
+            background: #fefefe;
+            border-left: 1px solid #aaa;
+
+            overflow-y: auto;
         }
+
+
     </style>
 </head>
 <body>
 
-<div id="tool_bar"><input type="text" id="title"></div>
-<div id="editor"></div>
-<div id="viewer"></div>
+<div id="tool_bar">
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 0;">
+                <ul>
+                    <li class="fa fa-save"></li>
+                    <li class="fa fa-trash-o"></li>
+                </ul>
+            </td>
+            <td style="width: 100%; padding: 0 5px;">
+                <input type="text" class="title">
+            </td>
+            <td style="width: 0;">
+                <ul>
+                    <li class="fa fa-th-list"></li>
+                    <li class="fa fa-th-list"></li>
+                    <li class="fa fa-th-list"></li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="content">
+    <div class="directories"></div>
+    <div id="designer">
+        <div class="editor"></div>
+        <div class="viewer"></div>
+    </div>
+</div>
+
 
 <script src="<%= request.getContextPath() %>/js/ace/ace.js"
         type="text/javascript" charset="utf-8"></script>
@@ -106,15 +211,15 @@
         smartLists: true,
         smartypants: false
     });
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
+    var editor = ace.edit($(".editor").get(0));
+    editor.setTheme("ace/theme/chrome");
     editor.getSession().setMode("ace/mode/text");
     editor.setPrintMarginColumn(80);
     var doc = editor.getSession().doc;
-    doc.on('change', function(e) {
+    doc.on('change', function (e) {
         var txt = editor.getValue();
         var html = marked(txt);
-        document.getElementById("viewer").innerHTML = html;
+        $(".viewer").html(html);
     })
 </script>
 </body>
