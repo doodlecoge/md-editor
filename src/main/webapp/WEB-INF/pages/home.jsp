@@ -12,7 +12,8 @@
 <head>
     <title>Markdown Editor</title>
 
-
+    <link type="text/css" rel="stylesheet"
+          href="<%=request.getContextPath()%>/css/preview.css"/>
     <style type="text/css">
         body {
             padding: 0;
@@ -155,12 +156,11 @@
             bottom: 0;
         }
 
-
-        #content.a .directories {
+        #content.hid .directories {
             left: -10000;
         }
 
-        #content.a .designer {
+        #content.hid .designer {
             left: -1px;
         }
 
@@ -188,8 +188,8 @@
             border-left: 1px solid #aaa;
 
             overflow-y: auto;
+            padding: 0 10px;
         }
-
 
 
     </style>
@@ -201,7 +201,7 @@
         <tr>
             <td style="width: 0;">
                 <ul>
-                    <li class="fa fa-angle-double-left"></li>
+                    <li class="fa fa-angle-double-left toggle-tool-win"></li>
                     <li class="fa fa-save"></li>
                     <li class="fa fa-trash-o"></li>
                 </ul>
@@ -224,14 +224,17 @@
     <div class="directories"></div>
     <div class="designer">
         <div class="editor"></div>
-        <div class="viewer"></div>
+        <div class="viewer preview"></div>
     </div>
 </div>
 
 
 <script src="<%= request.getContextPath() %>/js/ace/ace.js"
         type="text/javascript" charset="utf-8"></script>
-<script>
+<script type="text/javascript">
+    var _consts = {
+        "k_tws": "tool_window_state"
+    };
     marked.setOptions({
         renderer: new marked.Renderer(),
         gfm: true,
@@ -254,19 +257,32 @@
     });
 
     $(function () {
-        $("li:first").click(function () {
-            var b = $(this).hasClass("fa-angle-double-left");
-            if(b) {
-                $(this).removeClass("fa-angle-double-left");
-                $(this).addClass("fa-angle-double-right");
-                $("#content").addClass("a");
-            } else {
-                $(this).removeClass("fa-angle-double-right");
-                $(this).addClass("fa-angle-double-left");
-                $("#content").removeClass("a");
-            }
-        });
+        $("li.toggle-tool-win").click(toggle_tool_window);
+
+        var tool_win = $.cookie(_consts.k_tws);
+        toggle_tool_window(null, tool_win);
     });
+
+    function toggle_tool_window(e, state) {
+        var b;
+        if (e == null) b = state == 'close';
+        else b = $(this).hasClass("fa-angle-double-left");
+
+        var _this = $("li.toggle-tool-win");
+
+        if (b) { // close tool window
+            _this.removeClass("fa-angle-double-left");
+            _this.addClass("fa-angle-double-right");
+            $("#content").addClass("hid");
+            $.cookie(_consts.k_tws, 'close');
+        } else {
+            _this.removeClass("fa-angle-double-right");
+            _this.addClass("fa-angle-double-left");
+            $("#content").removeClass("hid");
+            $.cookie(_consts.k_tws, 'open');
+        }
+    }
+
 </script>
 </body>
 </html>

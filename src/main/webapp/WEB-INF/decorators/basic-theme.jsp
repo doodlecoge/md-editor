@@ -19,6 +19,8 @@
             src="<%= request.getContextPath() %>/js/marked.js"></script>
     <script type="text/javascript"
             src="<%= request.getContextPath() %>/js/jquery-1.11.1.js"></script>
+    <script type="text/javascript"
+            src="<%= request.getContextPath() %>/js/jquery.cookie.js"></script>
     <decorator:head/>
 </head>
 <body><decorator:body/></body>
