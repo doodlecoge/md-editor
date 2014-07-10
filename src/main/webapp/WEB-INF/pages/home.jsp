@@ -142,7 +142,7 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 190px;
+            width: 240px;
             background: #fefefe;
             border-right: 1px solid #aaa;
         }
@@ -152,13 +152,13 @@
             background: #ddd;
             top: 0;
             right: 0;
-            left: 200px;
+            left: 250px;
             bottom: 0;
         }
 
-        #content.hid .directories {
-            left: -10000;
-        }
+        /*#content.hid .directories {*/
+            /*left: -10000;*/
+        /*}*/
 
         #content.hid .designer {
             left: -1px;
@@ -191,6 +191,10 @@
             padding: 0 10px;
         }
 
+        .trans {
+            -webkit-transition: left 0.2s ease;  /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
+            transition: left 0.2s ease;  /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
+        }
 
     </style>
 </head>
@@ -222,7 +226,7 @@
 
 <div id="content">
     <div class="directories"></div>
-    <div class="designer">
+    <div class="designer trans">
         <div class="editor"></div>
         <div class="viewer preview"></div>
     </div>
