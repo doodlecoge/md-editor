@@ -233,7 +233,9 @@
         type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     var _consts = {
-        "k_tws": "tool_window_state"
+        "k_tws": "tool_window_state",
+        "b_ls": 'localStorage' in window &&
+                window['localStorage'] !== null
     };
     marked.setOptions({
         renderer: new marked.Renderer(),
@@ -247,20 +249,36 @@
     });
     var editor = ace.edit($(".editor").get(0));
     editor.setTheme("ace/theme/chrome");
-    editor.getSession().setMode("ace/mode/text");
     editor.setPrintMarginColumn(80);
+//    editor.getSession().setMode("ace/mode/text");
+    editor.session.setMode("ace/mode/text");
     var doc = editor.getSession().doc;
     doc.on('change', function (e) {
         var txt = editor.getValue();
+        if (_consts.b_ls) localStorage.setItem('txt', txt);
         var html = marked(txt);
         $(".viewer").html(html);
     });
+    editor.getSession().on('changeScrollTop', syncView);
+
+    function syncView() {
+        var v = $(".viewer");
+        var n = editor.getSession().getLength();
+        var i = editor.getFirstVisibleRow();
+        var r = getScrollHeight(v);
+        v.scrollTop(i * r / n);
+    }
+
+    function getScrollHeight(e) {
+        return e[0].scrollHeight !== undefined ? e[0].scrollHeight : e.find("html")[0].scrollHeight !== undefined && e.find("html")[0].scrollHeight !== 0 ? e.find("html")[0].scrollHeight : e.find("body")[0].scrollHeight
+    }
 
     $(function () {
         $("li.toggle-tool-win").click(toggle_tool_window);
 
         var tool_win = $.cookie(_consts.k_tws);
         toggle_tool_window(null, tool_win);
+        if (_consts.b_ls) editor.setValue(localStorage.getItem('txt'));
     });
 
     function toggle_tool_window(e, state) {
