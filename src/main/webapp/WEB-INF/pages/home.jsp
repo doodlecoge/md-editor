@@ -26,6 +26,8 @@
             <td style="width: 0;">
                 <ul>
                     <li class="fa fa-angle-double-left toggle-tool-win"></li>
+                    <li class="fa fa-plus"></li>
+                    <li class="fa fa-edit"></li>
                     <li class="fa fa-save"></li>
                     <li class="fa fa-trash-o"></li>
                 </ul>
