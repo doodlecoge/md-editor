@@ -128,6 +128,7 @@ input.title {
     width: 240px;
     background: #fefefe;
     border-right: 1px solid #aaa;
+    z-index: 100;
 }
 
 #content .tool-win .root {
@@ -150,6 +151,7 @@ input.title {
     border-radius: 3px;
     border: 1px solid #aaa;
 }
+
 #content .designer {
     position: absolute;
     background: #ddd;
@@ -159,15 +161,15 @@ input.title {
     bottom: 0;
 }
 
-/*#content.hid .tool-win {*/
-/*left: -10000;*/
-/*}*/
+#content.hid .tool-win {
+    display: none;
+}
 
 #content.hid .designer {
     left: -1px;
 }
 
-#content .designer .editor {
+#content .designer.vertical .editor {
     position: absolute;
     top: 0;
     right: 50%;
@@ -178,9 +180,10 @@ input.title {
     border-right: 1px solid #aaa;
     border-left: 1px solid #aaa;
     font-size: 16px;
+    z-index: 200;
 }
 
-#content .designer .viewer {
+#content .designer.vertical .viewer {
     position: absolute;
     top: 0;
     left: 50%;
@@ -192,9 +195,52 @@ input.title {
 
     overflow-y: auto;
     padding: 0 10px;
+    z-index: 300;
+}
+
+#content .designer.vertical.hid_e .viewer {
+    left: 0;
+    margin-left: 0;
+}
+
+
+#content .designer.horizontal .editor {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 50%;
+    margin-bottom: 4px;
+    background: #fefefe;
+    border-left: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    font-size: 16px;
+    z-index: 200;
+}
+
+#content .designer.horizontal .viewer {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-top: 4px;
+    background: #fefefe;
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+
+    overflow-y: auto;
+    padding: 0 10px;
+    z-index: 300;
+}
+
+#content .designer.horizontal.hid_e .viewer {
+    top: 0;
+    margin-top: 0;
+    border-top: 0;
 }
 
 .trans {
-    -webkit-transition: left 0.2s ease;  /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
-    transition: left 0.2s ease;  /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
+    -webkit-transition: all 0.2s ease;  /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
+    transition: all 0.2s ease;  /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
 }

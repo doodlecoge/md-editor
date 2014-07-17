@@ -35,9 +35,8 @@
             </td>
             <td style="width: 0;">
                 <ul>
-                    <li class="fa fa-th-list"></li>
-                    <li class="fa fa-th-list"></li>
-                    <li class="fa fa-th-list"></li>
+                    <li class="fa fa-th-list layout_vertical"></li>
+                    <li class="fa fa-th-list layout_horizontal"></li>
                 </ul>
             </td>
         </tr>
@@ -51,9 +50,9 @@
             Loading...
         </div>
     </div>
-    <div class="designer trans">
+    <div class="designer vertical trans">
         <div class="editor"></div>
-        <div class="viewer preview"></div>
+        <div class="viewer preview trans"></div>
     </div>
 </div>
 
@@ -106,6 +105,9 @@
 
     $(function () {
         $("li.toggle-tool-win").click(toggle_tool_window);
+        $("li.fa-save").click(toggle_editor);
+        $("li.layout_vertical").click(layout_vertical);
+        $("li.layout_horizontal").click(layout_horizontal);
 
         var tool_win = $.cookie(_consts.k_tws);
         toggle_tool_window(null, tool_win);
@@ -132,6 +134,26 @@
             $("#content").removeClass("hid");
             $.cookie(_consts.k_tws, 'open');
         }
+    }
+
+    function toggle_editor(e) {
+        console.log(e);
+        var d = $(".designer");
+        var b = d.hasClass('hid_e');
+        if (b) d.removeClass('hid_e');
+        else d.addClass('hid_e');
+    }
+
+    function layout_vertical(e) {
+        $(".designer").removeClass("horizontal");
+        $(".designer").addClass("vertical");
+        editor.resize();
+    }
+
+    function layout_horizontal(e) {
+        $(".designer").addClass("horizontal");
+        $(".designer").removeClass("vertical");
+        editor.resize();
     }
 
 </script>
