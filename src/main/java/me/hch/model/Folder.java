@@ -1,9 +1,11 @@
 package me.hch.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hch on 2014/7/13.
@@ -17,6 +19,18 @@ public class Folder {
 
     @Column(name = "folder_name")
     private String folderName;
+
+    @Column
+    private String username;
+
+    @Column(name = "parent_id")
+    private int parentId;
+
+
+    @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name = "parent_id", referencedColumnName = "folder_id")
+    private List<Folder> subFolders = new ArrayList<Folder>(0);
 
 
     public int getFolderId() {
@@ -33,5 +47,21 @@ public class Folder {
 
     public void setFolderName(String folderName) {
         this.folderName = folderName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<Folder> getSubFolders() {
+        return subFolders;
+    }
+
+    public void setSubFolders(List<Folder> subFolders) {
+        this.subFolders = subFolders;
     }
 }

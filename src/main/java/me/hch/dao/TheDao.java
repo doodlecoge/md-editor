@@ -1,9 +1,11 @@
 package me.hch.dao;
 
+import me.hch.model.Folder;
 import me.hch.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -22,10 +24,27 @@ public class TheDao {
     public User getUser(String username) {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(User.class);
+        criteria.add(Restrictions.eq("username", username));
         try {
             List list = criteria.list();
             if (list == null) return null;
             return (User) list.get(0);
+        } catch (Exception e) {
+            // todo: use log4j to track exceptions
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
+    public List<Folder> getTopFolders(String username) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Folder.class);
+        criteria.add(Restrictions.eq("username", username));
+        criteria.add(Restrictions.isNull("parentId"));
+        try {
+            return criteria.list();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

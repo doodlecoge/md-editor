@@ -5,6 +5,7 @@ import me.hch.model.Folder;
 import me.hch.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,12 +21,10 @@ public class HomeAction {
     private TheDao theDao;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap map) {
         User user = theDao.getUser("huaichao");
-        List<Folder> folders = user.getFolders();
-        for (Folder folder : folders) {
-            System.out.println("================" + folder.getFolderName());
-        }
+        System.out.println(user);
+
         return "home";
     }
 }
