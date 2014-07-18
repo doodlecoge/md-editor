@@ -37,8 +37,8 @@
             </td>
             <td style="width: 0;">
                 <ul>
-                    <li class="fa fa-th-list layout_vertical"></li>
-                    <li class="fa fa-th-list layout_horizontal"></li>
+                    <li class="fa fa-rotate-90 fa-bars layout_vertical"></li>
+                    <li class="fa fa-bars layout_horizontal"></li>
                 </ul>
             </td>
         </tr>
