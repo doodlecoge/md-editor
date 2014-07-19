@@ -43,11 +43,17 @@
         <property name="dataSource" ref="h2Ds"></property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect
+                <prop key="hibernate.dialect">
+                    org.hibernate.dialect.H2Dialect
                 </prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="format_sql">true</prop>
                 <prop key="default_schema">${db.schema}</prop>
+                <prop key="connection.pool_size">10</prop>
+                <prop key="c3p0.min_size">5</prop>
+                <prop key="c3p0.max_size">20</prop>
+                <prop key="c3p0.timeout">1800</prop>
+                <prop key="c3p0.max_statements">50</prop>
             </props>
         </property>
 
