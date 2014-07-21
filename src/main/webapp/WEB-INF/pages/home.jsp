@@ -37,8 +37,8 @@
             </td>
             <td style="width: 0;">
                 <ul>
-                    <li class="fa fa-rotate-90 fa-bars layout_vertical"></li>
-                    <li class="fa fa-bars layout_horizontal"></li>
+                    <li class="fa fa-rotate-90 fa-bars layout_horizontal"></li>
+                    <li class="fa fa-bars layout_vertical"></li>
                 </ul>
             </td>
         </tr>
@@ -53,8 +53,8 @@
         </div>
     </div>
     <div class="designer vertical trans">
-        <div class="editor"></div>
-        <div class="viewer preview trans"></div>
+        <div class="editor trans"></div>
+        <div class="preview trans"></div>
     </div>
 </div>
 
@@ -89,12 +89,12 @@
         var txt = editor.getValue();
         if (_consts.b_ls) localStorage.setItem('txt', txt);
         var html = marked(txt);
-        $(".viewer").html(html);
+        $(".preview").html(html);
     });
-    editor.session.on('changeScrollTop', syncView);
+    editor.session.on('changeScrollTop', syncPreview);
 
-    function syncView() {
-        var v = $(".viewer");
+    function syncPreview() {
+        var v = $(".preview");
         var n = editor.getSession().getLength();
         var i = editor.getFirstVisibleRow();
         var r = getScrollHeight(v);
@@ -128,35 +128,73 @@
         if (b) { // close tool window
             _this.removeClass("fa-angle-double-left");
             _this.addClass("fa-angle-double-right");
-            $("#content").addClass("hid");
+            $("#content").addClass("t0");
             $.cookie(_consts.k_tws, 'close');
         } else {
             _this.removeClass("fa-angle-double-right");
             _this.addClass("fa-angle-double-left");
-            $("#content").removeClass("hid");
+            $("#content").removeClass("t0");
             $.cookie(_consts.k_tws, 'open');
         }
+        resize_editor();
+    }
+
+    function resize_editor() {
+        // this time should be a little greater than
+        // the transition time set in css.
+        setTimeout(function() {
+            editor.resize();
+        }, 300);
     }
 
     function toggle_editor(e) {
         console.log(e);
-        var d = $(".designer");
-        var b = d.hasClass('hid_e');
-        if (b) d.removeClass('hid_e');
-        else d.addClass('hid_e');
+        var d = $("#content");
+        var b = d.hasClass('e');
+        if(b) hide_editor();
+        else hide_preview();
+    }
+
+    function hide_editor() {
+        $("#content").removeClass("v");
+        $("#content").removeClass("h");
+
+        $("#content").removeClass("e");
+        $("#content").addClass("p");
+
+        resize_editor();
+    }
+
+    function hide_preview() {
+        $("#content").removeClass("v");
+        $("#content").removeClass("h");
+
+        $("#content").removeClass("p");
+        $("#content").addClass("e");
+
+        resize_editor();
     }
 
     function layout_vertical(e) {
-        $(".designer").removeClass("horizontal");
-        $(".designer").addClass("vertical");
-        editor.resize();
+        $("#content").removeClass("e");
+        $("#content").removeClass("p");
+
+        $("#content").removeClass("h");
+        $("#content").addClass("v");
+
+        resize_editor();
     }
 
     function layout_horizontal(e) {
-        $(".designer").addClass("horizontal");
-        $(".designer").removeClass("vertical");
-        editor.resize();
+        $("#content").removeClass("e");
+        $("#content").removeClass("p");
+
+        $("#content").addClass("h");
+        $("#content").removeClass("v");
+
+        resize_editor();
     }
+
 
 </script>
 </body>

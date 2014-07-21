@@ -131,6 +131,123 @@ input.title {
     z-index: 100;
 }
 
+#content .designer {
+    position: absolute;
+    background: #ddd;
+    top: 0;
+    right: 0;
+    left: 250px;
+    bottom: 0;
+}
+
+#content .designer .editor {
+    position: absolute;
+    top: 0;
+    right: 50%;
+    margin-right: 4px;
+    left: 0;
+    bottom: 0;
+    background: #fefefe;
+    border-right: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    font-size: 16px;
+    z-index: 200;
+}
+
+#content .designer .preview {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: 4px;
+    right: 0;
+    bottom: 0;
+    background: #fefefe;
+    border-left: 1px solid #aaa;
+
+    overflow-y: auto;
+    padding: 0 10px;
+    z-index: 300;
+}
+
+/*
+ * +-------------+---------------------+----------------+-------+
+ * | tool window | vertical/horizontal | editor/preview | class |
+ * +----------------------------------------------------+-------+
+ * | t           | v                   |                | tv_   |
+ * | t           | h                   |                | th_   |
+ * |             | v                   |                | _v_   |
+ * |             | h                   |                | _h_   |
+ * | t           |                     | e              | t_e   |
+ * | t           |                     | p              | t_p   |
+ * |             |                     | e              | __e   |
+ * |             |                     | p              | __p   |
+ * +----------------------------------------------------+-------+
+ */
+
+#content.t0 .tool-win {
+    display: none;
+}
+
+#content.t0 .designer {
+    left: -1px;
+}
+
+#content.v .editor{
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 50%;
+    margin-bottom: 4px;
+    background: #fefefe;
+    border-left: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    font-size: 16px;
+    z-index: 200;
+}
+
+#content.v .preview{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-top: 4px;
+    background: #fefefe;
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+
+    overflow-y: auto;
+    padding: 0 10px;
+    z-index: 300;
+}
+
+#content.e .editor {
+    right: 0;
+    margin-right: 0;
+    bottom: 0;
+    margin-bottom: 0;
+}
+
+#content.e .preview {
+    /*display: none;*/
+    left: 100%;
+    margin: 0;
+}
+
+#content.p .editor {
+    /*display: none;*/
+    right: 100%;
+    margin: 0;
+}
+
+#content.p .preview {
+    top: 0;
+    margin-top: 0;
+    left: 0;
+    margin-left: 0;
+}
+
+
 #content .tool-win .root {
     background: #6699cc;
     line-height: 30px;
@@ -152,95 +269,29 @@ input.title {
     border: 1px solid #aaa;
 }
 
-#content .designer {
-    position: absolute;
-    background: #ddd;
-    top: 0;
-    right: 0;
-    left: 250px;
-    bottom: 0;
-}
-
-#content.hid .tool-win {
-    display: none;
-}
-
-#content.hid .designer {
-    left: -1px;
-}
-
-#content .designer.vertical .editor {
-    position: absolute;
-    top: 0;
-    right: 50%;
-    margin-right: 4px;
-    left: 0;
-    bottom: 0;
-    background: #fefefe;
-    border-right: 1px solid #aaa;
-    border-left: 1px solid #aaa;
-    font-size: 16px;
-    z-index: 200;
-}
-
-#content .designer.vertical .viewer {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin-left: 4px;
-    right: 0;
-    bottom: 0;
-    background: #fefefe;
-    border-left: 1px solid #aaa;
-
-    overflow-y: auto;
-    padding: 0 10px;
-    z-index: 300;
-}
-
-#content .designer.vertical.hid_e .viewer {
-    left: 0;
-    margin-left: 0;
-}
-
-
-#content .designer.horizontal .editor {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 50%;
-    margin-bottom: 4px;
-    background: #fefefe;
-    border-left: 1px solid #aaa;
-    border-bottom: 1px solid #aaa;
-    font-size: 16px;
-    z-index: 200;
-}
-
-#content .designer.horizontal .viewer {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin-top: 4px;
-    background: #fefefe;
-    border-top: 1px solid #aaa;
-    border-left: 1px solid #aaa;
-
-    overflow-y: auto;
-    padding: 0 10px;
-    z-index: 300;
-}
-
-#content .designer.horizontal.hid_e .viewer {
-    top: 0;
-    margin-top: 0;
-    border-top: 0;
-}
-
 .trans {
-    -webkit-transition: all 0.2s ease;  /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
-    transition: all 0.2s ease;  /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
+    transition-delay: 0;
+    transition-duration: 0.2s;
+    transition-property: top, right, bottom, left;
+    transition-timing-function: ease;
+
+
+    -webkit-transition-delay: 0;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-property: top, right, bottom, left;
+    -webkit-transition-timing-function: ease;
+
+    -o-transition-delay: 0;
+    -o-transition-duration: 0.2s;
+    -o-transition-property: top, right, bottom, left;
+    -o-transition-timing-function: ease;
+
+    -moz-transition-delay: 0;
+    -moz-transition-duration: 0.2s;
+    -moz-transition-property: top, right, bottom, left;
+    -moz-transition-timing-function: ease;
+
+
+    /*-webkit-transition: all 0.2s ease; *//* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
+    /*transition: all 0.2s ease; *//* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
 }
