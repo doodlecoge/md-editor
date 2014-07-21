@@ -5,7 +5,9 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by hch on 2014/7/13.
@@ -24,22 +26,8 @@ public class Folder {
     private String username;
 
     @Column(name = "parent_id")
-    private int parentId;
+    private Integer parentId;
 
-
-    @OneToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "parent_id", referencedColumnName = "folder_id")
-    private List<Folder> subFolders = new ArrayList<Folder>(0);
-
-
-    public int getFolderId() {
-        return folderId;
-    }
-
-    public void setFolderId(int folderId) {
-        this.folderId = folderId;
-    }
 
     public String getFolderName() {
         return folderName;
@@ -57,11 +45,32 @@ public class Folder {
         this.username = username;
     }
 
-    public List<Folder> getSubFolders() {
-        return subFolders;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setSubFolders(List<Folder> subFolders) {
-        this.subFolders = subFolders;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public int getFolderId() {
+        return folderId;
+    }
+
+    public void setFolderId(int folderId) {
+        this.folderId = folderId;
+    }
+
+
+    public String toJson() {
+        StringBuilder json = new StringBuilder();
+        json.append("{\"id\":\"");
+        json.append(folderId);
+        json.append("\",\"name\":\"");
+        json.append(folderName);
+        json.append("\",\"pid\":\"");
+        json.append(parentId == null ? 0 : parentId);
+        json.append("\"}");
+        return json.toString();
     }
 }

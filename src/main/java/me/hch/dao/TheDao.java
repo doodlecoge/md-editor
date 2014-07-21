@@ -19,7 +19,7 @@ import java.util.List;
 public class TheDao {
     @Autowired
     @Qualifier(value = "h2Sf")
-    private SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
 
     public User getUser(String username) {
         Session session = sessionFactory.openSession();
@@ -38,18 +38,5 @@ public class TheDao {
         }
     }
 
-    public List<Folder> getTopFolders(String username) {
-        Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Folder.class);
-        criteria.add(Restrictions.eq("username", username));
-        criteria.add(Restrictions.isNull("parentId"));
-        try {
-            return criteria.list();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (session != null) session.close();
-        }
-    }
+
 }
