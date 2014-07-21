@@ -47,9 +47,9 @@
 
 <div id="content">
     <div class="tool-win">
-        <div class="root">All Notes</div>
+        <%--<div class="root">All Notes</div>--%>
         <div class="tree">
-            Loading...
+
         </div>
     </div>
     <div class="designer vertical trans">
@@ -115,7 +115,7 @@
         toggle_tool_window(null, tool_win);
         if (_consts.b_ls) editor.setValue(localStorage.getItem('txt'));
 
-        $('.tree').jstree();
+        loadFolders();
     });
 
     function toggle_tool_window(e, state) {
@@ -142,7 +142,7 @@
     function resize_editor() {
         // this time should be a little greater than
         // the transition time set in css.
-        setTimeout(function() {
+        setTimeout(function () {
             editor.resize();
         }, 300);
     }
@@ -151,7 +151,7 @@
         console.log(e);
         var d = $("#content");
         var b = d.hasClass('e');
-        if(b) hide_editor();
+        if (b) hide_editor();
         else hide_preview();
     }
 
@@ -193,6 +193,26 @@
         $("#content").removeClass("v");
 
         resize_editor();
+    }
+
+    function loadFolders() {
+        var tree = $.jstree.reference(".tree");
+        if (!tree) tree = $(".tree").jstree({
+            "core": {"check_callback": true}
+        });
+        tree = $(".tree").jstree(true);
+
+        tree.create_node(null, "folder 0");
+        tree.create_node(null, "folder 1");
+        tree.create_node(null, "folder 2");
+
+        var xhr = $.ajax({
+            "url": "<%= request.getContextPath() %>/folder/0"
+        });
+
+        xhr.done(function (data) {
+            console.log(data);
+        });
     }
 
 
