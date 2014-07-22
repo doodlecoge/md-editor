@@ -201,17 +201,26 @@
             "core": {"check_callback": true}
         });
         tree = $(".tree").jstree(true);
+        $(".tree").bind("select_node.jstree", function (node, selected, event) {
 
-        tree.create_node(null, "folder 0");
-        tree.create_node(null, "folder 1");
-        tree.create_node(null, "folder 2");
+            console.log(node);
+            console.log(selected);
+            console.log(event);
+        });
 
         var xhr = $.ajax({
-            "url": "<%= request.getContextPath() %>/folder/0"
+            "url": "<%= request.getContextPath() %>/folder/0",
+            "dataType": "json"
         });
 
         xhr.done(function (data) {
-            console.log(data);
+            $.each(data, function (i, folder) {
+                tree.create_node(null, {
+                    "text": folder.name,
+                    "children": true,
+                    "opened": true
+                });
+            });
         });
     }
 
