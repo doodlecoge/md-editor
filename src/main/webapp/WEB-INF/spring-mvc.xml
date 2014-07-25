@@ -61,6 +61,7 @@
             <list>
                 <value>me.hch.model.User</value>
                 <value>me.hch.model.File</value>
+                <value>me.hch.model.Content</value>
             </list>
         </property>
 

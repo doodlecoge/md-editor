@@ -153,7 +153,6 @@
     }
 
     function toggle_editor(e) {
-        console.log(e);
         var d = $("#content");
         var b = d.hasClass('e');
         if (b) hide_editor();
@@ -207,35 +206,46 @@
             "core": {
                 "check_callback": true,
                 "data": function (obj, cb) {
-                    load_sub_folders(obj.id, cb, this);
+                    load_sub_files(obj.id, cb, this);
                 }
             }
         });
 
         $(".tree").jstree(true);
-        $(".tree").bind("select_node.jstree", function (node, selected, event) {
-            console.log(node);
-            console.log(selected);
-            console.log(event);
+        $(".tree").bind("select_node.jstree", function (e, sel) {
+            var id = sel.node.id;
+
+            var xhr = $.ajax({
+                "url": "<%=request.getContextPath()%>/content/" + id,
+                "dataType": "json"
+            });
+
+            xhr.done(function (data) {
+                if (data.status_code === 200)
+                    editor.setValue(data.response_text);
+            });
+
+            xhr.fail(function (data) {
+                console.log(data);
+            });
         });
     }
 
-    function load_sub_folders(id, cb, el) {
+    function load_sub_files(id, cb, el) {
         if (id === "#")id = 0;
         var xhr = $.ajax({
-            "url": "<%= request.getContextPath() %>/folder/" + id,
+            "url": "<%= request.getContextPath() %>/file/" + id,
             "dataType": "text"
         });
 
         xhr.done(function (data) {
-            console.log(data);
             var data = eval("(" + data + ")");
             var nodes = []
-            $.each(data, function (i, folder) {
-                var d = folder.type === "D";
+            $.each(data, function (i, file) {
+                var d = file.type === "D";
                 nodes.push({
-                    "id": folder.id,
-                    "text": folder.name,
+                    "id": file.id,
+                    "text": file.name,
                     "children": d ? true : false,
                     "opened": true,
                     "icon": d ? "fa fa-folder-o" : "fa fa-file-text-o",
@@ -248,7 +258,7 @@
         });
 
         xhr.fail(function (data) {
-
+            console.log(data);
         });
     }
 

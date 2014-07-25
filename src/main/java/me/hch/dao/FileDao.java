@@ -59,4 +59,19 @@ public class FileDao extends TheDao {
             if (session != null) session.close();
         }
     }
+
+    public File getFile(String fileId) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(File.class);
+        criteria.add(Restrictions.eq("id", fileId));
+
+        try {
+            return (File) criteria.list().get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
 }

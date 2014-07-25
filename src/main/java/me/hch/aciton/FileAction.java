@@ -15,8 +15,8 @@ import java.util.List;
  * Created by huaiwang on 7/18/14.
  */
 @Controller
-@RequestMapping("/folder")
-public class FolderAction {
+@RequestMapping("/file")
+public class FileAction {
     @Autowired
     private FileDao folderDao;
 
