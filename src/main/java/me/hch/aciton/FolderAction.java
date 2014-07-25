@@ -44,10 +44,9 @@ public class FolderAction {
         json.append("[");
         boolean flag = false;
         for (Folder folder : folders) {
-            if (flag) {
-                json.append(",");
-                flag = true;
-            }
+            if (flag) json.append(",");
+            else flag = true;
+
             json.append(folder.toJson());
         }
         json.append("]");
@@ -66,10 +65,8 @@ public class FolderAction {
         json.append("[");
         boolean flag = false;
         for (Folder folder : folders) {
-            if (flag) {
-                json.append(",");
-                flag = true;
-            }
+            if (flag) json.append(",");
+            else flag = true;
             json.append(folder.toJson());
         }
         json.append("]");
