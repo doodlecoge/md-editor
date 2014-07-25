@@ -25,8 +25,13 @@
         <tr>
             <td style="width: 0;">
                 <ul>
-                    <li class="fa fa-angle-double-left toggle-tool-win"></li>
-                    <li class="fa fa-plus"></li>
+                    <li class="fa fa-angle-double-left toggle-tool-win">
+
+                    </li>
+                    <li>
+                        <i class="fa fa-plus"></i>
+                        <i class="fa fa-sort-down" style="font-size: 8px;"></i>
+                    </li>
                     <li class="fa fa-edit"></li>
                     <li class="fa fa-save"></li>
                     <li class="fa fa-trash-o"></li>
@@ -209,6 +214,9 @@
 
         $(".tree").jstree(true);
         $(".tree").bind("select_node.jstree", function (node, selected, event) {
+            console.log(node);
+            console.log(selected);
+            console.log(event);
         });
     }
 
@@ -224,11 +232,13 @@
             var data = eval("(" + data + ")");
             var nodes = []
             $.each(data, function (i, folder) {
+                var d = folder.type === "D";
                 nodes.push({
                     "id": folder.id,
                     "text": folder.name,
-                    "children": true,
+                    "children": d ? true : false,
                     "opened": true,
+                    "icon": d ? "fa fa-folder-o" : "fa fa-file-text-o",
                     "state": {
                         "opened": false
                     }

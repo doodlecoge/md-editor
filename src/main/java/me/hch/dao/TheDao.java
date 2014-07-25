@@ -1,6 +1,5 @@
 package me.hch.dao;
 
-import me.hch.model.Folder;
 import me.hch.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;

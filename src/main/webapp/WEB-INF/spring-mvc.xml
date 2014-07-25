@@ -35,7 +35,7 @@
 
 
     <jdbc:embedded-database id="h2Ds" type="H2">
-        <jdbc:script location="classpath*:h2.sql"/>
+        <jdbc:script location="classpath*:h2.sql" encoding="utf-8"/>
     </jdbc:embedded-database>
 
     <bean id="h2Sf"
@@ -60,7 +60,7 @@
         <property name="annotatedClasses">
             <list>
                 <value>me.hch.model.User</value>
-                <value>me.hch.model.Folder</value>
+                <value>me.hch.model.File</value>
             </list>
         </property>
 

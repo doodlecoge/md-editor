@@ -19,8 +19,8 @@ public class User {
     private String displayName;
 
     @JoinColumn(name = "username", referencedColumnName = "username")
-    @OneToMany(targetEntity = Folder.class, fetch = FetchType.EAGER)
-    private List<Folder> folders;
+    @OneToMany(targetEntity = File.class, fetch = FetchType.EAGER)
+    private List<File> files;
 
 
     public String getUsername() {
@@ -47,11 +47,11 @@ public class User {
         this.displayName = displayName;
     }
 
-    public List<Folder> getFolders() {
-        return folders;
+    public List<File> getFiles() {
+        return files;
     }
 
-    public void setFolders(List<Folder> folders) {
-        this.folders = folders;
+    public void setFiles(List<File> files) {
+        this.files = files;
     }
 }

@@ -1,6 +1,6 @@
 package me.hch.dao;
 
-import me.hch.model.Folder;
+import me.hch.model.File;
 import org.hibernate.Criteria;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
@@ -12,10 +12,10 @@ import java.util.List;
  * Created by hch on 2014/7/19.
  */
 @Repository
-public class FolderDao extends TheDao {
-    public List<Folder> getTopFolders(String username) {
+public class FileDao extends TheDao {
+    public List<File> getTopFolders(String username) {
         Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Folder.class);
+        Criteria criteria = session.createCriteria(File.class);
         criteria.add(Restrictions.eq("username", username));
         criteria.add(Restrictions.isNull("parentId"));
         try {
@@ -28,9 +28,9 @@ public class FolderDao extends TheDao {
         }
     }
 
-    public List<Folder> getFolders(String username) {
+    public List<File> getFiles(String username) {
         Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Folder.class);
+        Criteria criteria = session.createCriteria(File.class);
         criteria.add(Restrictions.eq("username", username));
         try {
             return criteria.list();
@@ -42,14 +42,14 @@ public class FolderDao extends TheDao {
         }
     }
 
-    public List<Folder> getSubfolders(String username, int parentId) {
+    public List<File> getChildren(String username, int parentId) {
         Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Folder.class);
+        Criteria criteria = session.createCriteria(File.class);
         criteria.add(Restrictions.eq("username", username));
         if (parentId == 0)
-            criteria.add(Restrictions.isNull("parentId"));
+            criteria.add(Restrictions.isNull("pid"));
         else
-            criteria.add(Restrictions.eq("parentId", parentId));
+            criteria.add(Restrictions.eq("pid", parentId));
         try {
             return criteria.list();
         } catch (Exception e) {
