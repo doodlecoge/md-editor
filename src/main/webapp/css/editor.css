@@ -192,7 +192,7 @@ input.title {
     left: -1px;
 }
 
-#content.v .editor{
+#content.v .editor {
     top: 0;
     right: 0;
     left: 0;
@@ -205,13 +205,14 @@ input.title {
     z-index: 200;
 }
 
-#content.v .preview{
+#content.v .preview {
     position: absolute;
     top: 50%;
     left: 0;
     right: 0;
     bottom: 0;
     margin-top: 4px;
+    margin-left: 0;
     background: #fefefe;
     border-top: 1px solid #aaa;
     border-left: 1px solid #aaa;
@@ -247,7 +248,6 @@ input.title {
     margin-left: 0;
 }
 
-
 #content .tool-win .root {
     background: #6699cc;
     line-height: 30px;
@@ -275,7 +275,6 @@ input.title {
     transition-property: top, right, bottom, left;
     transition-timing-function: ease;
 
-
     -webkit-transition-delay: 0;
     -webkit-transition-duration: 0.2s;
     -webkit-transition-property: top, right, bottom, left;
@@ -290,7 +289,6 @@ input.title {
     -moz-transition-duration: 0.2s;
     -moz-transition-property: top, right, bottom, left;
     -moz-transition-timing-function: ease;
-
 
     /*-webkit-transition: all 0.2s ease; *//* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
     /*transition: all 0.2s ease; *//* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
