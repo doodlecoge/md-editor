@@ -195,32 +195,50 @@
         resize_editor();
     }
 
+
     function loadFolders() {
         var tree = $.jstree.reference(".tree");
         if (!tree) tree = $(".tree").jstree({
-            "core": {"check_callback": true}
+            "core": {
+                "check_callback": true,
+                "data": function (obj, cb) {
+                    load_sub_folders(obj.id, cb, this);
+                }
+            }
         });
-        tree = $(".tree").jstree(true);
+
+        $(".tree").jstree(true);
         $(".tree").bind("select_node.jstree", function (node, selected, event) {
-
-            console.log(node);
-            console.log(selected);
-            console.log(event);
         });
+    }
 
+    function load_sub_folders(id, cb, el) {
+        if (id === "#")id = 0;
         var xhr = $.ajax({
-            "url": "<%= request.getContextPath() %>/folder/0",
-            "dataType": "json"
+            "url": "<%= request.getContextPath() %>/folder/" + id,
+            "dataType": "text"
         });
 
         xhr.done(function (data) {
+            console.log(data);
+            var data = eval("(" + data + ")");
+            var nodes = []
             $.each(data, function (i, folder) {
-                tree.create_node(null, {
+                nodes.push({
+                    "id": folder.id,
                     "text": folder.name,
                     "children": true,
-                    "opened": true
+                    "opened": true,
+                    "state": {
+                        "opened": false
+                    }
                 });
             });
+            cb.call(el, nodes);
+        });
+
+        xhr.fail(function (data) {
+
         });
     }
 
