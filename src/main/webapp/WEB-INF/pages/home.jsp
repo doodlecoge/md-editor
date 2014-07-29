@@ -260,6 +260,47 @@ function loadFolders() {
         "plugins": ['state', 'dnd', 'sort', 'types', 'contextmenu', 'unique']
     });
 
+    $(".jstree").on('delete_node.jstree', function (e, data) {
+        console.log(e, data);
+        console.log(arguments.length);
+        console.log(data.instance);
+        var xhr = $.ajax({
+            "type": "DELETE",
+            "url": "<%=request.getContextPath()%>/file/" + data.node.id,
+            "dataType": "json"
+        });
+
+        $.get('aaaa', { 'id': data.node.id })
+                .fail(function () {
+                    var p = data.instance.get_node(data.node.parent);
+                    data.instance.refresh_node(p);
+                    //data.instance.refresh_node(data.node);
+                    //data.instance.refresh();
+                });
+
+    });
+
+    $(".jstree").on('create_node.jstree', function (e, data) {
+        $.get('?operation=create_node', { 'type': data.node.type, 'id': data.node.parent, 'text': data.node.text })
+                .done(function (d) {
+                    data.instance.set_id(data.node, d.id);
+                })
+                .fail(function () {
+                    data.instance.refresh();
+                });
+    });
+
+    $(".jstree").on('rename_node.jstree', function (e, data) {
+        $.get('?operation=rename_node', { 'id': data.node.id, 'text': data.text })
+                .done(function (d) {
+                    data.instance.set_id(data.node, d.id);
+                })
+                .fail(function () {
+                    data.instance.refresh();
+                });
+    });
+
+
     $(".tree").jstree(true);
     $(".tree").bind("select_node.jstree", function (e, sel) {
         var id = sel.node.id;

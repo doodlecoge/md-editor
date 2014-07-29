@@ -18,12 +18,12 @@ import java.util.List;
 @RequestMapping("/file")
 public class FileAction {
     @Autowired
-    private FileDao folderDao;
+    private FileDao fileDao;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
-        List<File> files = folderDao.getFiles("huaichao");
+        List<File> files = fileDao.getFiles("huaichao");
 
         if (files == null) return "[]";
 
@@ -44,7 +44,7 @@ public class FileAction {
     @ResponseBody
     @RequestMapping(value = "/{pid}")
     public String getSubfolders(@PathVariable int pid) {
-        List<File> files = folderDao.getChildren("huaichao", pid);
+        List<File> files = fileDao.getChildren("huaichao", pid);
 
         if (files == null) return "[]";
 
@@ -58,5 +58,13 @@ public class FileAction {
         }
         json.append("]");
         return json.toString();
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ActionResult delete(@PathVariable int id) {
+        fileDao.deleteFile(id);
+        return ActionResult.SUCCESS;
     }
 }
