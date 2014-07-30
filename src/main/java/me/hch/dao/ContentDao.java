@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ContentDao extends TheDao {
-    public Content getContent(String fileId) {
+    public Content getContent(int fileId) {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(Content.class);
         criteria.add(Restrictions.eq("fileId", fileId));

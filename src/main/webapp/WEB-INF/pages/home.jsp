@@ -212,6 +212,12 @@ function loadFolders() {
         'contextmenu': {
             'items': function (node) {
                 var tmp = $.jstree.defaults.contextmenu.items();
+                delete tmp.ccp;
+                if (this.get_type(node) === "file") {
+                    delete tmp.create;
+                    return tmp;
+                }
+
                 delete tmp.create.action;
                 tmp.create.label = "New";
                 tmp.create.submenu = {
@@ -221,9 +227,11 @@ function loadFolders() {
                         "action": function (data) {
                             var inst = $.jstree.reference(data.reference);
                             var obj = inst.get_node(data.reference);
+                            var type = inst.get_type(obj);
                             inst.create_node(obj, {
-                                type: "default",
-                                text: "New folder"
+                                type: "folder",
+                                text: "New folder",
+                                data: "D"
                             }, "last", function (new_node) {
                                 setTimeout(function () {
                                     inst.edit(new_node);
@@ -237,7 +245,9 @@ function loadFolders() {
                             var inst = $.jstree.reference(data.reference);
                             var obj = inst.get_node(data.reference);
                             inst.create_node(obj, {
-                                type: "file", text: "New file"
+                                type: "file",
+                                text: "New file",
+                                data: "F"
                             }, "last", function (new_node) {
                                 setTimeout(function () {
                                     inst.edit(new_node);
@@ -246,14 +256,10 @@ function loadFolders() {
                         }
                     }
                 };
-                if (this.get_type(node) === "file") {
-                    delete tmp.create;
-                }
                 return tmp;
             }
         },
         'types': {
-            'default': { 'icon': 'fa fa-folder-o' },
             'folder': { 'icon': 'fa fa-folder-o' },
             'file': { 'valid_children': [], 'icon': 'fa fa-file-text-o' }
         },
@@ -261,33 +267,50 @@ function loadFolders() {
     });
 
     $(".jstree").on('delete_node.jstree', function (e, data) {
-        console.log(e, data);
-        console.log(arguments.length);
-        console.log(data.instance);
         var xhr = $.ajax({
             "type": "DELETE",
             "url": "<%=request.getContextPath()%>/file/" + data.node.id,
             "dataType": "json"
         });
 
-        $.get('aaaa', { 'id': data.node.id })
-                .fail(function () {
-                    var p = data.instance.get_node(data.node.parent);
-                    data.instance.refresh_node(p);
-                    //data.instance.refresh_node(data.node);
-                    //data.instance.refresh();
-                });
+        xhr.done(function (data) {
+            if (data.error) {
+                reload_node();
+            }
+        });
 
+        xhr.fail(function () {
+            reload_node();
+        });
+
+        function reload_node() {
+            var p = data.instance.get_node(data.node.parent);
+            data.instance.refresh_node(p);
+        }
     });
 
     $(".jstree").on('create_node.jstree', function (e, data) {
-        $.get('?operation=create_node', { 'type': data.node.type, 'id': data.node.parent, 'text': data.node.text })
-                .done(function (d) {
-                    data.instance.set_id(data.node, d.id);
-                })
-                .fail(function () {
-                    data.instance.refresh();
-                });
+        console.log(data);
+        var xhr = $.ajax({
+            "type": "POST",
+            "url": "<%=request.getContextPath()%>/file",
+            "data": {
+                "name": data.node.text,
+                "pid": data.parent,
+                "type": data.node.data
+            },
+            "dataType": "json"
+        });
+
+        xhr.done(function (data) {
+            if (data.error) {
+                reload_node();
+            }
+        });
+
+        xhr.fail(function () {
+            reload_node();
+        });
     });
 
     $(".jstree").on('rename_node.jstree', function (e, data) {
@@ -339,6 +362,7 @@ function load_sub_files(id, cb, el) {
                 "children": d ? true : false,
                 "opened": true,
                 "icon": d ? "fa fa-folder-o" : "fa fa-file-text-o",
+                "type": d ? "folder" : "file",
                 "state": {
                     "opened": false
                 }

@@ -31,7 +31,7 @@ public class ContentAction {
 
     @ResponseBody
     @RequestMapping(value = "/{fid}")
-    public String getContent(@PathVariable String fid) {
+    public String getContent(@PathVariable int fid) {
         JsonObject jobj = new JsonObject();
 
         String code = "status_code";

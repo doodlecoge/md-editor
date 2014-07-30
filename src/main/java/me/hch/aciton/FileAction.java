@@ -4,10 +4,7 @@ import me.hch.dao.FileDao;
 import me.hch.model.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,13 +14,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/file")
 public class FileAction {
+    public static final String username = "huaichao";
+
     @Autowired
     private FileDao fileDao;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
-        List<File> files = fileDao.getFiles("huaichao");
+        List<File> files = fileDao.getFiles(username);
 
         if (files == null) return "[]";
 
@@ -44,7 +43,7 @@ public class FileAction {
     @ResponseBody
     @RequestMapping(value = "/{pid}")
     public String getSubfolders(@PathVariable int pid) {
-        List<File> files = fileDao.getChildren("huaichao", pid);
+        List<File> files = fileDao.getChildren(username, pid);
 
         if (files == null) return "[]";
 
@@ -65,6 +64,24 @@ public class FileAction {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ActionResult delete(@PathVariable int id) {
         fileDao.deleteFile(id);
+        return ActionResult.SUCCESS;
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    public ActionResult add(@RequestParam String name,
+                            @RequestParam File.FileType type,
+                            @RequestParam int pid) {
+        fileDao.createFile(name, pid, type, username);
+        return ActionResult.SUCCESS;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    public ActionResult add(@RequestParam String name,
+                            @RequestParam int id) {
+        fileDao.renameFile(id, name);
         return ActionResult.SUCCESS;
     }
 }

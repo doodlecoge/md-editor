@@ -19,21 +19,6 @@ import java.util.List;
 public class FileDao extends TheDao {
     private static final Logger log = LoggerFactory.getLogger(FileDao.class);
 
-    public List<File> getTopFolders(String username) {
-        Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(File.class);
-        criteria.add(Restrictions.eq("username", username));
-        criteria.add(Restrictions.isNull("parentId"));
-        try {
-            return criteria.list();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (session != null) session.close();
-        }
-    }
-
     public List<File> getFiles(String username) {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(File.class);
@@ -66,7 +51,7 @@ public class FileDao extends TheDao {
         }
     }
 
-    public File getFile(String fileId) {
+    public File getFile(int fileId) {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(File.class);
         criteria.add(Restrictions.eq("id", fileId));
@@ -82,15 +67,61 @@ public class FileDao extends TheDao {
     }
 
     public void deleteFile(int id) {
-//        Session session = sessionFactory.getCurrentSession();
         Session session = null;
         try {
             session = sessionFactory.openSession();
             Object obj = session.load(File.class, id);
-            if (obj != null) session.delete(obj);
-            else log.error("file:" + id + ",not found.");
+            if (obj != null) {
+                session.beginTransaction();
+                session.delete(obj);
+                session.getTransaction().commit();
+            } else log.error("file:" + id + ",not found.");
         } catch (HibernateException e) {
             log.error("delete file:" + id + " failed.", e);
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
+    public File createFile(String name, int pid, File.FileType type,
+                           String username) {
+        File file = new File();
+        file.setName(name);
+        file.setType(type);
+        file.setPid(pid);
+        file.setUsername(username);
+
+        Session session = null;
+
+        try {
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+            session.save(file);
+            session.getTransaction().commit();
+            return file;
+        } catch (HibernateException e) {
+            log.error("create file failed.", e);
+            return null;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
+    public void renameFile(int id, String name) {
+        Session session = null;
+
+        try {
+            session = sessionFactory.openSession();
+            Object obj = session.load(File.class, id);
+            if (obj != null) {
+                File file = (File) obj;
+                file.setName(name);
+                session.beginTransaction();
+                session.save(file);
+                session.getTransaction().commit();
+            }
+        } catch (HibernateException e) {
+            log.error("create file failed.", e);
         } finally {
             if (session != null) session.close();
         }

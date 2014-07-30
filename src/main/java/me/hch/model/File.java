@@ -16,6 +16,7 @@ import java.util.Set;
 @Table(name = "files", schema = "md")
 public class File {
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
@@ -29,6 +30,7 @@ public class File {
     private Integer pid;
 
     @Column
+    @Enumerated(value = EnumType.STRING)
     private FileType type;
 
     public int getId() {
