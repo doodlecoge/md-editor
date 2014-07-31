@@ -1,0 +1,39 @@
+#cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10000;
+
+    background-color: #000;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+}
+
+.hide {
+    display: none;
+}
+
+#loading {
+    position: absolute;
+    width: 300px;
+    top: 35%;
+    right: 50%;
+    padding: 10px;
+    margin-right: -160px;
+    z-index: 10100;
+    text-align: center;
+
+    background: #ccc;
+    border: 1px solid #444;
+    -khtml-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}

@@ -116,16 +116,6 @@ $(function () {
     $("li.layout_vertical").click(layout_vertical);
     $("li.layout_horizontal").click(layout_horizontal);
 
-    // add transparent cover
-    var cover = $("#cover");
-    if (cover.length === 0) {
-        $(document.body).append('<div id="cover" class="hide"></div>');
-        cover = $("#cover");
-        cover.click(function () {
-            $(this).addClass("hide");
-        });
-    }
-
     var tool_win = $.cookie(_consts.k_tws);
     toggle_tool_window(null, tool_win);
     if (_consts.b_ls) {
@@ -438,11 +428,18 @@ function load_sub_files(id, cb, el) {
 }
 
 function show_mask() {
-    console.log("abc");
-    var cover = $("#cover");
-    cover.removeClass('hide');
+    $('').loading();
+    $(document.body).dialog();
+
+//    console.log("abc");
+//    var cover = $("#cover");
+//    cover.removeClass('hide');
+//
+//    $(".tree").dialog();
 }
 
 </script>
+
+
 </body>
 </html>
