@@ -13,15 +13,17 @@ import javax.persistence.Table;
 public class Content {
     @Id
     @Column(name = "file_id")
-    private String fileId;
+    private int fileId;
+
     @Column
     private String content;
 
-    public String getFileId() {
+
+    public int getFileId() {
         return fileId;
     }
 
-    public void setFileId(String fileId) {
+    public void setFileId(int fileId) {
         this.fileId = fileId;
     }
 

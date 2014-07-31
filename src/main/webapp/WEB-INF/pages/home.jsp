@@ -112,16 +112,47 @@ function getScrollHeight(e) {
 
 $(function () {
     $("li.toggle-tool-win").click(toggle_tool_window);
-    $("li.fa-save").click(toggle_editor);
+    $("li.fa-save").click(save_content);
     $("li.layout_vertical").click(layout_vertical);
     $("li.layout_horizontal").click(layout_horizontal);
 
     var tool_win = $.cookie(_consts.k_tws);
     toggle_tool_window(null, tool_win);
-    if (_consts.b_ls) editor.setValue(localStorage.getItem('txt'));
+    if (_consts.b_ls) {
+        editor.setValue(localStorage.getItem('txt'));
+        editor.clearSelection();
+    }
 
     loadFolders();
 });
+
+function save_content() {
+    var sel = $(".tree").jstree(true).get_selected();
+    if (sel.length !== 1) {
+        alert("multiple selected nodes not allowed while saving");
+        return;
+    }
+
+    sel = sel[0];
+    var cont = editor.getValue();
+
+    var xhr = $.ajax({
+        "type": "POST",
+        "url": "<%=request.getContextPath()%>/content/" + sel,
+        "data": {
+            "content": cont
+        },
+        "dataType": "json"
+    });
+
+    xhr.done(function (data) {
+        console.log(data);
+    });
+
+    xhr.fail(function (data) {
+        console.log(data);
+    });
+}
 
 function toggle_tool_window(e, state) {
     var b;
@@ -198,7 +229,6 @@ function layout_horizontal(e) {
 
     resize_editor();
 }
-
 
 function loadFolders() {
     var tree = $.jstree.reference(".tree");
@@ -314,13 +344,24 @@ function loadFolders() {
     });
 
     $(".jstree").on('rename_node.jstree', function (e, data) {
-        $.get('?operation=rename_node', { 'id': data.node.id, 'text': data.text })
-                .done(function (d) {
-                    data.instance.set_id(data.node, d.id);
-                })
-                .fail(function () {
-                    data.instance.refresh();
-                });
+        var xhr = $.ajax({
+            "type": "POST",
+            "url": "<%=request.getContextPath()%>/file/" + data.node.id,
+            "data": {
+                "name": data.node.text
+            },
+            "dataType": "json"
+        });
+
+        xhr.done(function (data) {
+            if (data.error) {
+                reload_node();
+            }
+        });
+
+        xhr.fail(function () {
+            reload_node();
+        });
     });
 
 
@@ -334,8 +375,10 @@ function loadFolders() {
         });
 
         xhr.done(function (data) {
-            if (data.status_code === 200)
+            if (data.status_code === 200) {
                 editor.setValue(data.response_text);
+                editor.clearSelection();
+            }
         });
 
         xhr.fail(function (data) {

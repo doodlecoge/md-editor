@@ -80,7 +80,7 @@ public class FileAction {
     @ResponseBody
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ActionResult add(@RequestParam String name,
-                            @RequestParam int id) {
+                            @PathVariable int id) {
         fileDao.renameFile(id, name);
         return ActionResult.SUCCESS;
     }
