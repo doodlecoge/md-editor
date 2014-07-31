@@ -116,6 +116,16 @@ $(function () {
     $("li.layout_vertical").click(layout_vertical);
     $("li.layout_horizontal").click(layout_horizontal);
 
+    // add transparent cover
+    var cover = $("#cover");
+    if (cover.length === 0) {
+        $(document.body).append('<div id="cover" class="hide"></div>');
+        cover = $("#cover");
+        cover.click(function () {
+            $(this).addClass("hide");
+        });
+    }
+
     var tool_win = $.cookie(_consts.k_tws);
     toggle_tool_window(null, tool_win);
     if (_consts.b_ls) {
@@ -254,36 +264,11 @@ function loadFolders() {
                     "create_folder": {
                         "separator_after": true,
                         "label": "Folder",
-                        "action": function (data) {
-                            var inst = $.jstree.reference(data.reference);
-                            var obj = inst.get_node(data.reference);
-                            var type = inst.get_type(obj);
-                            inst.create_node(obj, {
-                                type: "folder",
-                                text: "New folder",
-                                data: "D"
-                            }, "last", function (new_node) {
-                                setTimeout(function () {
-                                    inst.edit(new_node);
-                                }, 0);
-                            });
-                        }
+                        "action": create_folder_action
                     },
                     "create_file": {
                         "label": "File",
-                        "action": function (data) {
-                            var inst = $.jstree.reference(data.reference);
-                            var obj = inst.get_node(data.reference);
-                            inst.create_node(obj, {
-                                type: "file",
-                                text: "New file",
-                                data: "F"
-                            }, "last", function (new_node) {
-                                setTimeout(function () {
-                                    inst.edit(new_node);
-                                }, 0);
-                            });
-                        }
+                        "action": create_file_action
                     }
                 };
                 return tmp;
@@ -295,6 +280,39 @@ function loadFolders() {
         },
         "plugins": ['state', 'dnd', 'sort', 'types', 'contextmenu', 'unique']
     });
+
+
+    function create_folder_action(data) {
+        show_mask();
+//        var inst = $.jstree.reference(data.reference);
+//        var obj = inst.get_node(data.reference);
+//        var type = inst.get_type(obj);
+//        inst.create_node(obj, {
+//            type: "folder",
+//            text: "New folder",
+//            data: "D",
+//            id: "xxxxxxxxx"
+//        }, "last", function (new_node) {
+//            setTimeout(function () {
+//                //inst.edit(new_node);
+//            }, 0);
+//        });
+    }
+
+    function create_file_action(data) {
+        var inst = $.jstree.reference(data.reference);
+        var obj = inst.get_node(data.reference);
+        inst.create_node(obj, {
+            type: "file",
+            text: "New file",
+            data: "F"
+        }, "last", function (new_node) {
+            setTimeout(function () {
+                //inst.edit(new_node);
+            }, 0);
+        });
+    }
+
 
     $(".jstree").on('delete_node.jstree', function (e, data) {
         var xhr = $.ajax({
@@ -419,6 +437,11 @@ function load_sub_files(id, cb, el) {
     });
 }
 
+function show_mask() {
+    console.log("abc");
+    var cover = $("#cover");
+    cover.removeClass('hide');
+}
 
 </script>
 </body>
