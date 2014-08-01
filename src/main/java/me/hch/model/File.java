@@ -16,7 +16,7 @@ import java.util.Set;
 @Table(name = "files", schema = "md")
 public class File {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
@@ -78,7 +78,7 @@ public class File {
         json.append("{\"id\":\"");
         json.append(id);
         json.append("\",\"name\":\"");
-        json.append(name);
+        json.append(name.replace("\"", "\\\""));
         json.append("\",\"pid\":\"");
         json.append(pid == null ? 0 : pid);
         json.append("\",\"type\":\"");

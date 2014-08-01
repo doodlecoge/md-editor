@@ -72,8 +72,11 @@ public class FileAction {
     public ActionResult add(@RequestParam String name,
                             @RequestParam File.FileType type,
                             @RequestParam int pid) {
-        fileDao.createFile(name, pid, type, username);
-        return ActionResult.SUCCESS;
+        File file = fileDao.createFile(name, pid, type, username);
+        ActionResult result = new ActionResult();
+        result.setData(file.toJson());
+
+        return result;
     }
 
 

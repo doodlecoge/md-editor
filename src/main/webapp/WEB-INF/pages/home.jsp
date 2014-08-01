@@ -268,12 +268,51 @@ function loadFolders() {
             'folder': { 'icon': 'fa fa-folder-o' },
             'file': { 'valid_children': [], 'icon': 'fa fa-file-text-o' }
         },
-        "plugins": ['state', 'dnd', 'sort', 'types', 'contextmenu', 'unique']
+        "plugins": ['state', 'dnd', 'sort', 'types', 'contextmenu']
     });
 
 
     function create_folder_action(data) {
-        show_mask();
+        var inst = $.jstree.reference(data.reference);
+        var pnode = inst.get_node(data.reference);
+
+
+        var xhr = $.ajax({
+            "type": "POST",
+            "url": "<%=request.getContextPath()%>/file",
+            "data": {
+                "name": null,
+                "pid": pnode.id,
+                "type": 'D'
+            },
+            "dataType": "json"
+        });
+
+        xhr.done(function (data) {
+            if (data.error) {
+                reload_node();
+            } else {
+                var d = eval('(' + data.data + ')');
+                inst.create_node(pnode, {
+                    type: "folder",
+                    text: d.name,
+                    data: "D",
+                    id: d.id
+                }, "last", function (new_node) {
+                    setTimeout(function () {
+                        //inst.edit(new_node);
+                    }, 0);
+                });
+            }
+        });
+
+        xhr.fail(function () {
+            reload_node();
+        });
+
+        var xhr = $.ajax({
+
+        });
 //        var inst = $.jstree.reference(data.reference);
 //        var obj = inst.get_node(data.reference);
 //        var type = inst.get_type(obj);
@@ -292,15 +331,17 @@ function loadFolders() {
     function create_file_action(data) {
         var inst = $.jstree.reference(data.reference);
         var obj = inst.get_node(data.reference);
-        inst.create_node(obj, {
+        var id = inst.create_node(obj, {
             type: "file",
             text: "New file",
-            data: "F"
+            data: "F",
+            id: 'xxxxxdddddddd'
         }, "last", function (new_node) {
             setTimeout(function () {
                 //inst.edit(new_node);
             }, 0);
         });
+        console.log(id);
     }
 
 

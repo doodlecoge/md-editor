@@ -85,12 +85,33 @@ public class FileDao extends TheDao {
 
     public File createFile(String name, int pid, File.FileType type,
                            String username) {
+        if(name == null) {
+            name = getTmpName(type);
+        }
+
         File file = new File();
         file.setName(name);
         file.setType(type);
         file.setPid(pid);
         file.setUsername(username);
 
+        Session session = null;
+
+        try {
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+            session.save(file);
+            session.getTransaction().commit();
+            return file;
+        } catch (HibernateException e) {
+            log.error("create file failed.", e);
+            return null;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
+    private String getTmpName(File.FileType type) {
         Session session = null;
 
         try {
