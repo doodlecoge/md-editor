@@ -85,8 +85,8 @@ public class FileDao extends TheDao {
 
     public File createFile(String name, int pid, File.FileType type,
                            String username) {
-        if(name == null) {
-            name = getTmpName(type);
+        if (name == null) {
+            name = getTmpName(username, type);
         }
 
         File file = new File();
@@ -111,15 +111,20 @@ public class FileDao extends TheDao {
         }
     }
 
-    private String getTmpName(File.FileType type) {
+    private String getTmpName(String username, File.FileType type) {
         Session session = null;
+        String ptn = null;
+        if (type == File.FileType.D) ptn = "New Folder";
+        else ptn = "New File";
 
         try {
             session = sessionFactory.openSession();
-            session.beginTransaction();
-            session.save(file);
-            session.getTransaction().commit();
-            return file;
+            Criteria criteria = session.createCriteria(File.class);
+            criteria.add(Restrictions.eq("username", username));
+            criteria.add(Restrictions.like("name", ptn + "%"));
+            List list = criteria.list();
+            if (list == null) return ptn + " 1";
+            else return ptn + " " + (list.size() + 1);
         } catch (HibernateException e) {
             log.error("create file failed.", e);
             return null;
@@ -142,7 +147,7 @@ public class FileDao extends TheDao {
                 session.getTransaction().commit();
             }
         } catch (HibernateException e) {
-            log.error("create file failed.", e);
+            log.error("rename file failed.", e);
         } finally {
             if (session != null) session.close();
         }

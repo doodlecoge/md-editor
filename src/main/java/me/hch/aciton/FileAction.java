@@ -69,7 +69,7 @@ public class FileAction {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public ActionResult add(@RequestParam String name,
+    public ActionResult add(@RequestParam(required = false) String name,
                             @RequestParam File.FileType type,
                             @RequestParam int pid) {
         File file = fileDao.createFile(name, pid, type, username);

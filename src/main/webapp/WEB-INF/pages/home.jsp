@@ -281,7 +281,6 @@ function loadFolders() {
             "type": "POST",
             "url": "<%=request.getContextPath()%>/file",
             "data": {
-                "name": null,
                 "pid": pnode.id,
                 "type": 'D'
             },
@@ -309,39 +308,44 @@ function loadFolders() {
         xhr.fail(function () {
             reload_node();
         });
-
-        var xhr = $.ajax({
-
-        });
-//        var inst = $.jstree.reference(data.reference);
-//        var obj = inst.get_node(data.reference);
-//        var type = inst.get_type(obj);
-//        inst.create_node(obj, {
-//            type: "folder",
-//            text: "New folder",
-//            data: "D",
-//            id: "xxxxxxxxx"
-//        }, "last", function (new_node) {
-//            setTimeout(function () {
-//                //inst.edit(new_node);
-//            }, 0);
-//        });
     }
 
     function create_file_action(data) {
         var inst = $.jstree.reference(data.reference);
-        var obj = inst.get_node(data.reference);
-        var id = inst.create_node(obj, {
-            type: "file",
-            text: "New file",
-            data: "F",
-            id: 'xxxxxdddddddd'
-        }, "last", function (new_node) {
-            setTimeout(function () {
-                //inst.edit(new_node);
-            }, 0);
+        var pnode = inst.get_node(data.reference);
+
+
+        var xhr = $.ajax({
+            "type": "POST",
+            "url": "<%=request.getContextPath()%>/file",
+            "data": {
+                "pid": pnode.id,
+                "type": 'F'
+            },
+            "dataType": "json"
         });
-        console.log(id);
+
+        xhr.done(function (data) {
+            if (data.error) {
+                reload_node();
+            } else {
+                var d = eval('(' + data.data + ')');
+                inst.create_node(pnode, {
+                    type: "file",
+                    text: d.name,
+                    data: "F",
+                    id: d.id
+                }, "last", function (new_node) {
+                    setTimeout(function () {
+                        //inst.edit(new_node);
+                    }, 0);
+                });
+            }
+        });
+
+        xhr.fail(function () {
+            reload_node();
+        });
     }
 
 
@@ -370,26 +374,26 @@ function loadFolders() {
 
     $(".jstree").on('create_node.jstree', function (e, data) {
         console.log(data);
-        var xhr = $.ajax({
-            "type": "POST",
-            "url": "<%=request.getContextPath()%>/file",
-            "data": {
-                "name": data.node.text,
-                "pid": data.parent,
-                "type": data.node.data
-            },
-            "dataType": "json"
-        });
+        <%--var xhr = $.ajax({--%>
+            <%--"type": "POST",--%>
+            <%--"url": "<%=request.getContextPath()%>/file",--%>
+            <%--"data": {--%>
+                <%--"name": data.node.text,--%>
+                <%--"pid": data.parent,--%>
+                <%--"type": data.node.data--%>
+            <%--},--%>
+            <%--"dataType": "json"--%>
+        <%--});--%>
 
-        xhr.done(function (data) {
-            if (data.error) {
-                reload_node();
-            }
-        });
+        <%--xhr.done(function (data) {--%>
+            <%--if (data.error) {--%>
+                <%--reload_node();--%>
+            <%--}--%>
+        <%--});--%>
 
-        xhr.fail(function () {
-            reload_node();
-        });
+        <%--xhr.fail(function () {--%>
+            <%--reload_node();--%>
+        <%--});--%>
     });
 
     $(".jstree").on('rename_node.jstree', function (e, data) {
