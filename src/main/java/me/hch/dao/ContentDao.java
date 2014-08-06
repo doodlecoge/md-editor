@@ -54,4 +54,27 @@ public class ContentDao extends TheDao {
             if (session != null) session.close();
         }
     }
+
+
+    public void createEmptyContent(int fileId) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Content.class);
+        criteria.add(Restrictions.eq("fileId", fileId));
+        try {
+            Object obj = criteria.uniqueResult();
+            if (obj != null) return;
+
+            Content cont = new Content();
+            cont.setFileId(fileId);
+
+            session.beginTransaction();
+            session.saveOrUpdate(cont);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            throw new MdRuntimeException(
+                    "saving content failed, id: " + fileId, e);
+        } finally {
+            if (session != null) session.close();
+        }
+    }
 }

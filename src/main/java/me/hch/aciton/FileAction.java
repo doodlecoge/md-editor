@@ -1,5 +1,6 @@
 package me.hch.aciton;
 
+import me.hch.dao.ContentDao;
 import me.hch.dao.FileDao;
 import me.hch.model.File;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class FileAction {
 
     @Autowired
     private FileDao fileDao;
+    @Autowired
+    ContentDao contentDao;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
@@ -73,6 +76,9 @@ public class FileAction {
                             @RequestParam File.FileType type,
                             @RequestParam int pid) {
         File file = fileDao.createFile(name, pid, type, username);
+        if (type == File.FileType.F) {
+            contentDao.createEmptyContent(file.getId());
+        }
         ActionResult result = new ActionResult();
         result.setData(file.toJson());
 
