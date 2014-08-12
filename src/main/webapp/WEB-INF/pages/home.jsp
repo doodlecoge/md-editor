@@ -373,6 +373,10 @@ function loadFolders() {
     });
 
     $(".jstree").on('create_node.jstree', function (e, data) {
+        data.instance.deselect_all();
+        data.instance.select_node(
+                data.instance.get_node(data.node.id)
+        );
         console.log(data);
         <%--var xhr = $.ajax({--%>
             <%--"type": "POST",--%>
@@ -448,6 +452,7 @@ function load_sub_files(id, cb, el) {
     });
 
     xhr.done(function (data) {
+        console.log(data);
         var data = eval("(" + data + ")");
         var nodes = []
         $.each(data, function (i, file) {
