@@ -7,6 +7,9 @@ import me.hch.model.File;
 import org.hibernate.Criteria;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.access.BeanFactoryLocator;
+import org.springframework.beans.factory.access.BeanFactoryReference;
+import org.springframework.beans.factory.access.SingletonBeanFactoryLocator;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,14 +18,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ContentDao extends TheDao {
     public Content getContent(int fileId) {
-        Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Content.class);
-        criteria.add(Restrictions.eq("fileId", fileId));
+        Session session = null;
         try {
+            session = sessionFactory.openSession();
+            Criteria criteria = session.createCriteria(Content.class);
+            criteria.add(Restrictions.eq("fileId", fileId));
             return (Content) criteria.list().get(0);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new MdRuntimeException(
+                    "get content failed, file id: " + fileId, e);
         } finally {
             if (session != null) session.close();
         }
@@ -38,7 +42,7 @@ public class ContentDao extends TheDao {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(Content.class);
         criteria.add(Restrictions.eq("fileId", fileId));
-        Content cont = null;
+        Content cont;
         try {
             Object obj = criteria.uniqueResult();
 
@@ -70,10 +74,11 @@ public class ContentDao extends TheDao {
 
 
     public void createEmptyContent(int fileId) {
-        Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Content.class);
-        criteria.add(Restrictions.eq("fileId", fileId));
+        Session session = null;
         try {
+            session = sessionFactory.openSession();
+            Criteria criteria = session.createCriteria(Content.class);
+            criteria.add(Restrictions.eq("fileId", fileId));
             Object obj = criteria.uniqueResult();
             if (obj != null) return;
 
@@ -84,10 +89,17 @@ public class ContentDao extends TheDao {
             session.saveOrUpdate(cont);
             session.getTransaction().commit();
         } catch (Exception e) {
+            if (session != null) session.getTransaction().rollback();
             throw new MdRuntimeException(
                     "saving content failed, id: " + fileId, e);
         } finally {
             if (session != null) session.close();
         }
     }
+
+//    private File getFile(String fid) {
+//        BeanFactoryLocator bfl = SingletonBeanFactoryLocator.getInstance();
+//        BeanFactoryReference bfr = bfl.useBeanFactory(FileDao.class.toString());
+//        bfr.getFactory().getBean("someService");
+//    }
 }
