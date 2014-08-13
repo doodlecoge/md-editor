@@ -34,6 +34,7 @@ public class ContentAction {
 
         String code = "status_code";
         String text = "response_text";
+        String fileId = "file_id";
 
         File file = fileDao.getFile(fid);
         if (file != null && file.getType() == File.FileType.D) {
@@ -47,6 +48,7 @@ public class ContentAction {
         } else {
             jobj.addProperty(code, HttpStatus.OK.value());
             jobj.addProperty(text, content.getContent());
+            jobj.addProperty(fileId, content.getFileId());
         }
 
         return jobj.toString();

@@ -69,6 +69,12 @@
 <script src="<%= request.getContextPath() %>/jstree/jstree.js"
         type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+if(!!console) {
+    console = {};
+}
+var FID = null;
+var CID = null;
+
 var _consts = {
     "k_tws": "tool_window_state",
     "b_ls": 'localStorage' in window &&
@@ -377,26 +383,26 @@ function loadFolders() {
         data.instance.select_node(
                 data.instance.get_node(data.node.id)
         );
-        console.log(data);
+//        console.log(data);
         <%--var xhr = $.ajax({--%>
-            <%--"type": "POST",--%>
-            <%--"url": "<%=request.getContextPath()%>/file",--%>
-            <%--"data": {--%>
-                <%--"name": data.node.text,--%>
-                <%--"pid": data.parent,--%>
-                <%--"type": data.node.data--%>
-            <%--},--%>
-            <%--"dataType": "json"--%>
+        <%--"type": "POST",--%>
+        <%--"url": "<%=request.getContextPath()%>/file",--%>
+        <%--"data": {--%>
+        <%--"name": data.node.text,--%>
+        <%--"pid": data.parent,--%>
+        <%--"type": data.node.data--%>
+        <%--},--%>
+        <%--"dataType": "json"--%>
         <%--});--%>
 
         <%--xhr.done(function (data) {--%>
-            <%--if (data.error) {--%>
-                <%--reload_node();--%>
-            <%--}--%>
+        <%--if (data.error) {--%>
+        <%--reload_node();--%>
+        <%--}--%>
         <%--});--%>
 
         <%--xhr.fail(function () {--%>
-            <%--reload_node();--%>
+        <%--reload_node();--%>
         <%--});--%>
     });
 
@@ -424,7 +430,11 @@ function loadFolders() {
 
     $(".tree").jstree(true);
     $(".tree").bind("select_node.jstree", function (e, sel) {
+        if (sel.node.type === 'folder') return;
+
         var id = sel.node.id;
+        FID = id;
+
 
         var xhr = $.ajax({
             "url": "<%=request.getContextPath()%>/content/" + id,
@@ -432,7 +442,7 @@ function loadFolders() {
         });
 
         xhr.done(function (data) {
-            if (data.status_code === 200) {
+            if (data.status_code === 200 && FID == data.file_id) {
                 editor.setValue(data.response_text);
                 editor.clearSelection();
             }
