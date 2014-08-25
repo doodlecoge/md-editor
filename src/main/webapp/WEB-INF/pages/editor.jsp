@@ -16,7 +16,7 @@
     <link type="text/css" rel="stylesheet"
           href="<%=request.getContextPath()%>/jstree/style.css"/>
     <link type="text/css" rel="stylesheet"
-          href="<%=request.getContextPath()%>/css/editor.css"/>
+          href="<%=request.getContextPath()%>/css/editor2.css"/>
 </head>
 <body>
 
@@ -46,10 +46,7 @@
 
 <div id="content">
     <div class="tool-win">
-        <%--<div class="root">All Notes</div>--%>
-        <div class="tree">
-
-        </div>
+        <div class="sub-files"></div>
     </div>
     <div class="designer vertical trans">
         <div class="editor trans"></div>
@@ -63,7 +60,7 @@
 <script src="<%= request.getContextPath() %>/jstree/jstree.js"
         type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-if(!console) {
+if (!console) {
     console = {};
     console.log = new Function();
 }
@@ -116,6 +113,7 @@ $(function () {
     $("li.fa-save").click(save_content);
     $("li.layout_vertical").click(layout_vertical);
     $("li.layout_horizontal").click(layout_horizontal);
+    $(".sub-files").click(onClickFile)
 
     var tool_win = $.cookie(_consts.k_tws);
     toggle_tool_window(null, tool_win);
@@ -124,8 +122,34 @@ $(function () {
         editor.clearSelection();
     }
 
-    loadFolders();
+    load_sub_files(0);
 });
+
+function onClickFile(e) {
+    var e = $(e.target);
+    var li = e.closest('li');
+    var fid = li.attr('fid');
+    if(li.attr('t') == 'D') load_sub_files(fid);
+    else load_file_content(fid);
+}
+
+function load_file_content(fid) {
+    var xhr = $.ajax({
+        "url": "<%=request.getContextPath()%>/content/" + fid,
+        "dataType": "json"
+    });
+
+    xhr.done(function (data) {
+        if (data.status_code === 200) {
+            editor.setValue(data.response_text);
+            editor.clearSelection();
+        }
+    });
+
+    xhr.fail(function (data) {
+        console.log(data);
+    });
+}
 
 function save_content() {
     var sel = $(".tree").jstree(true).get_selected();
@@ -427,7 +451,7 @@ function loadFolders() {
     $(".tree").bind("select_node.jstree", function (e, sel) {
         if (sel.node.type === 'folder') {
             sel.instance.deselect_node(sel.node);
-            if(!!FID) sel.instance.select_node(FID);
+            if (!!FID) sel.instance.select_node(FID);
             return;
         }
 
@@ -453,32 +477,27 @@ function loadFolders() {
     });
 }
 
-function load_sub_files(id, cb, el) {
-    if (id === "#") id = 0;
+function load_sub_files(id) {
     var xhr = $.ajax({
         "url": "<%= request.getContextPath() %>/file/" + id,
         "dataType": "text"
     });
 
     xhr.done(function (data) {
-        console.log(data);
+        var c = $(".sub-files").html('').append('<ul></ul>');
+        var lst = c.find('ul');
         var data = eval("(" + data + ")");
-        var nodes = []
         $.each(data, function (i, file) {
             var d = file.type === "D";
-            nodes.push({
-                "id": file.id,
-                "text": file.name,
-                "children": d ? true : false,
-                "opened": true,
-                "icon": d ? "fa fa-folder-o" : "fa fa-file-text-o",
-                "type": d ? "folder" : "file",
-                "state": {
-                    "opened": false
-                }
-            });
+            var cls = 'fa-folder-o';
+            if (!d) cls = 'fa-file-text-o';
+            var item = $('<li></li>');
+            item.attr('fid', file.id);
+            item.attr('t', file.type);
+            item.append('<i class="fa ' + cls + '"></i>');
+            item.append('<span>' + file.name + '</span>');
+            lst.append(item);
         });
-        cb.call(el, nodes);
     });
 
     xhr.fail(function (data) {

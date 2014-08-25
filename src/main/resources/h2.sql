@@ -40,17 +40,18 @@ INSERT INTO
   md.files (username, name, pid, type)
 VALUES
   ('huaichao', 'java notes', NULL, 'D'),
+  ('huaichao', 'java notes', NULL, 'F'),
   ('huaichao', 'spring', 1, 'D'),
   ('huaichao', 'reflection', 1, 'D'),
   ('huaichao', 'ejb notes', 1, 'F'),
-  ('huaichao', 'spring ws', 2, 'F'),
-  ('huaichao', 'spring mvc', 2, 'F');
+  ('huaichao', 'spring ws', 3, 'F'),
+  ('huaichao', 'spring mvc', 3, 'F');
 
 
 INSERT INTO
   md.contents (file_id, content)
 VALUES
-  (4, '
+  (2, '
 Enterprise Java Bean
 ====================
 
@@ -71,4 +72,12 @@ Spring MVC
 ==========
 
 1. MVC annotation
-2. flow control statements');
+2. flow control statements'),
+
+
+  (7, '
+Bash Commands
+==========
+
+3. loops
+4. flow control statements');
