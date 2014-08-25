@@ -69,8 +69,9 @@
 <script src="<%= request.getContextPath() %>/jstree/jstree.js"
         type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-if(!!console) {
+if(!console) {
     console = {};
+    console.log = new Function();
 }
 var FID = null;
 var CID = null;
@@ -430,7 +431,11 @@ function loadFolders() {
 
     $(".tree").jstree(true);
     $(".tree").bind("select_node.jstree", function (e, sel) {
-        if (sel.node.type === 'folder') return;
+        if (sel.node.type === 'folder') {
+            sel.instance.deselect_node(sel.node);
+            if(!!FID) sel.instance.select_node(FID);
+            return;
+        }
 
         var id = sel.node.id;
         FID = id;
