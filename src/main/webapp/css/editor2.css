@@ -110,6 +110,12 @@ body {
     height: 35px;
 }
 
+#tool_bar li.dis {
+    color: #aaa;
+    border-color: transparent;
+    cursor: default;
+}
+
 input.title {
     width: 100%;
     border: 0;
@@ -303,9 +309,9 @@ input.title {
 }
 
 #content .tool-win ul li:hover {
-    background-image: -moz-linear-gradient(#dbfaf8, #c2edf0);
-    background-image: -webkit-linear-gradient(#dbfaf8, #c2edf0);
-    background-image: linear-gradient(#dbfaf8, #c2edf0);
+    background-image: -moz-linear-gradient(#ffffff,     #cef);
+    background-image: -webkit-linear-gradient(#ffffff,  #cef);
+    background-image: linear-gradient(#ffffff,          #cef);
     background-repeat: repeat-x;
     border-bottom: 1px solid #ccc;
 }
