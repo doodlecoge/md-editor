@@ -46,6 +46,24 @@
 
 <div id="content">
     <div class="tool-win">
+        <div class="new_btns">
+            <table>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0)">
+                            <i class="fa fa-plus"></i>
+                            &nbsp;New Folder
+                        </a>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)">
+                            <i class="fa fa-plus"></i>
+                            &nbsp;New File
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <div class="sub-files"></div>
     </div>
     <div class="designer vertical trans">
