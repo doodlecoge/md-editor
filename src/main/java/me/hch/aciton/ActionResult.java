@@ -1,5 +1,7 @@
 package me.hch.aciton;
 
+import com.google.gson.JsonObject;
+
 /**
  * Created by huaiwang on 07/29/2014.
  */
@@ -18,25 +20,11 @@ public class ActionResult {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\"error\":");
-        sb.append(error);
-
-        if (message != null) {
-            sb.append(",\"message\":\"");
-            sb.append(message.replace("\"", "\\\""));
-            sb.append("\"");
-        }
-
-        if (data != null) {
-            sb.append(",\"data\":\"");
-            sb.append(data.replace("\"", "\\\""));
-            sb.append("\"");
-        }
-
-        sb.append("}");
-
-        return sb.toString();
+        JsonObject jobj = new JsonObject();
+        jobj.addProperty("error", error);
+        jobj.addProperty("message", message);
+        jobj.addProperty("data", data);
+        return jobj.toString();
     }
 
     public boolean isError() {

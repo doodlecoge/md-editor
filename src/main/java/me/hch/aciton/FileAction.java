@@ -1,12 +1,16 @@
 package me.hch.aciton;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import me.hch.dao.ContentDao;
 import me.hch.dao.FileDao;
 import me.hch.model.File;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,20 +50,23 @@ public class FileAction {
     @ResponseBody
     @RequestMapping(value = "/{pid}")
     public String getSubfolders(@PathVariable int pid) {
+        JsonArray jarrFiles = new JsonArray();
         List<File> files = fileDao.getChildren(username, pid);
-
-        if (files == null) return "[]";
-
-        StringBuilder json = new StringBuilder();
-        json.append("[");
-        boolean flag = false;
         for (File file : files) {
-            if (flag) json.append(",");
-            else flag = true;
-            json.append(file.toJson());
+            jarrFiles.add(file.toGson());
         }
-        json.append("]");
-        return json.toString();
+
+        JsonArray jarrPaths = new JsonArray();
+        List<File> paths = _getPath(pid);
+        for (File path : paths) {
+            jarrPaths.add(path.toGson());
+        }
+
+        JsonObject jobj = new JsonObject();
+        jobj.add("files", jarrFiles);
+        jobj.add("paths", jarrPaths);
+
+        return jobj.toString();
     }
 
 
@@ -92,5 +99,28 @@ public class FileAction {
                             @PathVariable int id) {
         fileDao.renameFile(id, name);
         return ActionResult.SUCCESS;
+    }
+
+    @ResponseBody
+    @RequestMapping("/{id}/path")
+    private String getPath(@PathVariable int id) {
+        JsonArray jarr = new JsonArray();
+        List<File> files = _getPath(id);
+        for (File file : files) {
+            jarr.add(file.toGson());
+        }
+        return jarr.toString();
+    }
+
+    private List<File> _getPath(int id) {
+        List<File> files = new ArrayList<File>();
+        if (id == 0) return files;
+        Integer fid = id;
+        while (fid != null) {
+            File file = fileDao.getFile(fid);
+            files.add(0, file);
+            fid = file.getPid();
+        }
+        return files;
     }
 }

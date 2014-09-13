@@ -126,19 +126,35 @@ body {
     cursor: default;
 }
 
-input.title {
-    width: 100%;
+div.path {
     border: 0;
     padding: 0 4px;
     height: 33px;
+    line-height: 33px;
     outline: none;
     border: 1px solid #bbb;
+    background: #f8f8f8;
     -moz-border-radius: 3px; /* Gecko browsers */
     -webkit-border-radius: 3px; /* Webkit browsers */
     border-radius: 3px; /* W3C syntax */
     font-size: 16px;
-    font-weight: bold;
     box-sizing: border-box;
+}
+
+div.path span {
+    margin: 2px;
+    padding: 2px 5px;
+    border: 1px solid #bbb;
+    background: #eee;
+    -moz-border-radius: 3px; /* Gecko browsers */
+    -webkit-border-radius: 3px; /* Webkit browsers */
+    border-radius: 3px; /* W3C syntax */
+    cursor: pointer;
+}
+
+div.path span:hover {
+    background: #cde;
+    border: 1px solid #79c;
 }
 
 #content {
@@ -304,7 +320,6 @@ input.title {
 #content .tool-win ul {
     padding: 0;
     margin: 0;
-    border-top: 1px solid #ccc;
 }
 #content .tool-win ul li {
     cursor: pointer;
@@ -329,54 +344,6 @@ input.title {
 
 #content .tool-win ul li span {
     padding-left: 10px;
-}
-
-
-#content .tool-win .new_btns {
-    line-height: 40px;
-    height: 40px;
-    background-color: #eeeeee;
-    background-image: -moz-linear-gradient(#fafafa, #f0f0f0);
-    background-image: -webkit-linear-gradient(#fafafa, #f0f0f0);
-    background-image: linear-gradient(#fafafa, #f0f0f0);
-    background-repeat: repeat-x;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 5px;
-    overflow: hidden;
-}
-
-#content .tool-win .new_btns table {
-    border: 0;
-    border-spacing: 0;
-    padding: 0;
-    width: 100%;
-    table-layout: fixed;
-    height: 100%;
-}
-
-#content .tool-win .new_btns table td {
-    padding: 0;
-    margin: 0;
-}
-
-#content .tool-win .new_btns table td a {
-    display:-moz-inline-stack;
-    display:inline-block;
-    zoom:1;
-    *display:inline;
-    width: 100%;
-    height: 100%;
-    line-height: 40px;
-    text-align: center;
-    color: #444;
-    text-decoration: none;
-}
-
-#content .tool-win .new_btns table td a:hover {
-    background-image: -moz-linear-gradient(     #fff, #def);
-    background-image: -webkit-linear-gradient(  #fff, #def);
-    background-image: linear-gradient(          #fff, #def);
-    background-repeat: repeat-x;
 }
 
 .trans {

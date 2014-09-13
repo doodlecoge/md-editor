@@ -1,5 +1,6 @@
 package me.hch.model;
 
+import com.google.gson.JsonObject;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -85,6 +86,17 @@ public class File {
         json.append(type.name());
         json.append("\"}");
         return json.toString();
+    }
+
+    public JsonObject toGson() {
+        JsonObject jobj = new JsonObject();
+
+        jobj.addProperty("id", id);
+        jobj.addProperty("name", name);
+        jobj.addProperty("pid", pid == null ? 0 : pid);
+        jobj.addProperty("type", type.name());
+
+        return jobj;
     }
 
     public static enum FileType {

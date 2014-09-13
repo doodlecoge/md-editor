@@ -27,12 +27,16 @@
                 <ul>
                     <li class="fa fa-chevron-left toggle-tool-win"></li>
                     <li class="sep"></li>
+                    <li class="fa fa-folder-o" title="add new folder"></li>
+                    <li class="fa fa-file-text-o" title="add new file"></li>
+                    <li class="sep"></li>
                     <li class="dis fa fa-arrow-left dis"></li>
                     <li class="dis fa fa-arrow-right"></li>
                 </ul>
             </td>
             <td style="width: 100%; padding: 0 5px;">
-                <input type="text" class="title">
+                <div id="path" class="path"></div>
+            <%--<input id="path" type="text" class="title">--%>
             </td>
             <td style="width: 0;">
                 <ul>
@@ -46,24 +50,6 @@
 
 <div id="content">
     <div class="tool-win">
-        <div class="new_btns">
-            <table>
-                <tr>
-                    <td>
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-plus"></i>
-                            &nbsp;New Folder
-                        </a>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-plus"></i>
-                            &nbsp;New File
-                        </a>
-                    </td>
-                </tr>
-            </table>
-        </div>
         <div class="sub-files"></div>
     </div>
     <div class="designer vertical trans">
@@ -136,6 +122,7 @@ $(function () {
     $(".sub-files").click(onClickFile);
     $("li.fa-arrow-left").click(backward);
     $("li.fa-arrow-right").click(forward);
+    $("div#path").click(load_sub_files2);
 
     var tool_win = $.cookie(_consts.k_tws);
     toggle_tool_window(null, tool_win);
@@ -298,6 +285,13 @@ function layout_horizontal(e) {
     resize_editor();
 }
 
+function load_sub_files2(e) {
+    var el = $(e.target);
+    var id = el.data('fid');
+    id = id || 0;
+    load_sub_files(id);
+}
+
 function load_sub_files(id) {
     if (fstack.length == 0)
         $("li.fa-arrow-right").addClass('dis');
@@ -320,7 +314,15 @@ function load_sub_files(id) {
         var c = $(".sub-files").html('').append('<ul></ul>');
         var lst = c.find('ul');
         var data = eval("(" + data + ")");
-        $.each(data, function (i, file) {
+        $("#path").html('');
+        $("#path").append('<span>/</span>');
+        $.each(data.paths, function(i, path) {
+            var s = $('<span>');
+            s.data('fid', path.id);
+            s.html(path.name);
+            $("#path").append(s);
+        });
+        $.each(data.files, function (i, file) {
             var d = file.type === "D";
             var cls = 'fa-folder-o';
             if (!d) cls = 'fa-file-text-o';
