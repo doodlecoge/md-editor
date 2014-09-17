@@ -1,10 +1,10 @@
-#cover {
-    position: absolute;
+.hch-overlay {
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 10000;
+    z-index: 9999;
 
     background-color: #000;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
@@ -12,6 +12,18 @@
     -moz-opacity: 0.5;
     -khtml-opacity: 0.5;
     opacity: 0.5;
+}
+
+.hch-dialog {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: .2em;
+    outline: 0;
+    z-index: 10000;
+    background: #f8f8f8;
+    padding: 0 20px;
 }
 
 .hide {

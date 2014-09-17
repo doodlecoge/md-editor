@@ -58,6 +58,10 @@
     </div>
 </div>
 
+<div id="dlg">
+    <p>Create Folder:</p>
+    <p><input type="text" name="name"></p>
+</div>
 
 <script src="<%= request.getContextPath() %>/js/ace/ace.js"
         type="text/javascript" charset="utf-8"></script>
@@ -132,6 +136,8 @@ $(function () {
     }
 
     load_sub_files(0);
+
+    $("#dlg").dialog();
 });
 
 function backward(e) {
@@ -286,6 +292,7 @@ function layout_horizontal(e) {
 }
 
 function load_sub_files2(e) {
+    if (e.target.nodeName.toLowerCase() !== 'span') return;
     var el = $(e.target);
     var id = el.data('fid');
     id = id || 0;
@@ -316,7 +323,7 @@ function load_sub_files(id) {
         var data = eval("(" + data + ")");
         $("#path").html('');
         $("#path").append('<span>/</span>');
-        $.each(data.paths, function(i, path) {
+        $.each(data.paths, function (i, path) {
             var s = $('<span>');
             s.data('fid', path.id);
             s.html(path.name);

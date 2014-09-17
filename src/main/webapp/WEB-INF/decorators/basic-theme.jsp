@@ -24,7 +24,15 @@
     <script type="text/javascript"
             src="<%= request.getContextPath() %>/js/jquery.cookie.js"></script>
     <script type="text/javascript"
+            src="<%= request.getContextPath() %>/js/jquery-ui.js"></script>
+    <script type="text/javascript"
             src="<%= request.getContextPath() %>/js/jquery.plugins.js"></script>
+
+    <script type="text/javascript">
+        console = console || {
+            log: new Function()
+        }
+    </script>
     <decorator:head/>
 </head>
 <body><decorator:body/></body>
