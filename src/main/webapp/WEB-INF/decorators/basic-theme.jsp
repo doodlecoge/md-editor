@@ -15,18 +15,21 @@
           href="<%= request.getContextPath() %>/css/site.css"/>
     <link type="text/css" rel="stylesheet"
           href="<%= request.getContextPath() %>/css/font-awesome.css"/>
-    <link type="text/css" rel="stylesheet"
-          href="<%= request.getContextPath() %>/css/jquery.plugins.css"/>
-    <script type="text/javascript"
-            src="<%= request.getContextPath() %>/js/marked.js"></script>
-    <script type="text/javascript"
-            src="<%= request.getContextPath() %>/js/jquery-1.11.1.js"></script>
-    <script type="text/javascript"
-            src="<%= request.getContextPath() %>/js/jquery.cookie.js"></script>
-    <script type="text/javascript"
-            src="<%= request.getContextPath() %>/js/jquery-ui.js"></script>
-    <script type="text/javascript"
-            src="<%= request.getContextPath() %>/js/jquery.plugins.js"></script>
+
+    <%--<link type="text/css" rel="stylesheet"--%>
+          <%--href="<%= request.getContextPath() %>/css/jquery-ui.css"/>--%>
+    <%--<link type="text/css" rel="stylesheet"--%>
+          <%--href="<%= request.getContextPath() %>/css/jquery.plugins.css"/>--%>
+    <%--<script type="text/javascript"--%>
+            <%--src="<%= request.getContextPath() %>/js/marked.js"></script>--%>
+    <%--<script type="text/javascript"--%>
+            <%--src="<%= request.getContextPath() %>/js/jquery-1.11.1.js"></script>--%>
+    <%--<script type="text/javascript"--%>
+            <%--src="<%= request.getContextPath() %>/js/jquery.cookie.js"></script>--%>
+    <%--<script type="text/javascript"--%>
+            <%--src="<%= request.getContextPath() %>/js/jquery-ui.js"></script>--%>
+    <%--<script type="text/javascript"--%>
+            <%--src="<%= request.getContextPath() %>/js/jquery.plugins.js"></script>--%>
 
     <script type="text/javascript">
         console = console || {

@@ -19,11 +19,52 @@
     position: absolute;
     top: 0;
     left: 0;
-    padding: .2em;
     outline: 0;
     z-index: 10000;
     background: #f8f8f8;
-    padding: 0 20px;
+    min-width: 400px;
+
+    -khtml-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.hch-dialog-titlebar {
+    height: 35px;
+    line-height: 35px;
+    padding: 0 10px;
+    font-weight: bold;
+    background: #eee;
+    background-image: -moz-linear-gradient(#eee, #ddd);
+    background-image: -webkit-linear-gradient(#eee, #ddd);
+    background-image: linear-gradient(#eee, #ddd);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #aaa;
+}
+
+.hch-dialog-buttonpane {
+    height: 40px;
+    line-height: 40px;
+    background: #eee;
+    background-image: -moz-linear-gradient(#eee, #ddd);
+    background-image: -webkit-linear-gradient(#eee, #ddd);
+    background-image: linear-gradient(#eee, #ddd);
+    border-top: 1px solid #ccc;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.hch-dialog-buttonpane button {
+    cursor: pointer;
+    height: 30px;
+    min-width: 50px;
+    position: relative;
+    top: 50%;
+    margin-top: -15px;
+    margin-right: 30px;
 }
 
 .hide {

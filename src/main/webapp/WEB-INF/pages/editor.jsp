@@ -12,6 +12,28 @@
 <head>
     <title>Markdown Editor</title>
     <link type="text/css" rel="stylesheet"
+          href="<%= request.getContextPath() %>/css/font-awesome.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="<%= request.getContextPath() %>/css/jquery-ui.css"/>
+    <%--<link type="text/css" rel="stylesheet"--%>
+    <%--href="<%= request.getContextPath() %>/css/jquery-ui.structure.css"/>--%>
+    <%--<link type="text/css" rel="stylesheet"--%>
+    <%--href="<%= request.getContextPath() %>/css/jquery-ui.theme.css"/>--%>
+    <link type="text/css" rel="stylesheet"
+          href="<%= request.getContextPath() %>/css/jquery.plugins.css"/>
+
+    <script type="text/javascript"
+            src="<%= request.getContextPath() %>/js/marked.js"></script>
+    <script type="text/javascript"
+            src="<%= request.getContextPath() %>/js/jquery-1.11.1.js"></script>
+    <script type="text/javascript"
+            src="<%= request.getContextPath() %>/js/jquery.cookie.js"></script>
+    <script type="text/javascript"
+            src="<%= request.getContextPath() %>/js/jquery-ui.js"></script>
+    <script type="text/javascript"
+            src="<%= request.getContextPath() %>/js/jquery.plugins.js"></script>
+
+    <link type="text/css" rel="stylesheet"
           href="<%=request.getContextPath()%>/css/preview.css"/>
     <link type="text/css" rel="stylesheet"
           href="<%=request.getContextPath()%>/jstree/style.css"/>
@@ -27,8 +49,11 @@
                 <ul>
                     <li class="fa fa-chevron-left toggle-tool-win"></li>
                     <li class="sep"></li>
-                    <li class="fa fa-folder-o" title="add new folder"></li>
-                    <li class="fa fa-file-text-o" title="add new file"></li>
+                    <li class="fa fa-folder-o" id="add_folder"
+                        title="add new folder"></li>
+                    <li class="fa fa-file-text-o" id="add_file"
+                        title="add new file"></li>
+                    <li class="fa fa-save" id="save" title="save file content"/>
                     <li class="sep"></li>
                     <li class="dis fa fa-arrow-left dis"></li>
                     <li class="dis fa fa-arrow-right"></li>
@@ -36,7 +61,6 @@
             </td>
             <td style="width: 100%; padding: 0 5px;">
                 <div id="path" class="path"></div>
-            <%--<input id="path" type="text" class="title">--%>
             </td>
             <td style="width: 0;">
                 <ul>
@@ -58,9 +82,8 @@
     </div>
 </div>
 
-<div id="dlg">
-    <p>Create Folder:</p>
-    <p><input type="text" name="name"></p>
+<div id="dlg" title="Create Folder">
+    <p><input type="text" name="name" style="width: 300px"></p>
 </div>
 
 <script src="<%= request.getContextPath() %>/js/ace/ace.js"
@@ -73,7 +96,8 @@ if (!console) {
     console.log = new Function();
 }
 
-var currid = null;
+var currdid = null;
+var currfid = null;
 var fstack = [];
 var bstack = [];
 
@@ -137,14 +161,72 @@ $(function () {
 
     load_sub_files(0);
 
-    $("#dlg").dialog();
+    $("#add_folder").click(function () {
+        add_file_or_folder(false)
+    });
+
+    $("#add_file").click(function () {
+        add_file_or_folder(true)
+    });
+
+    $("#save").click(function () {
+        save_content();
+    });
+
+
 });
+
+
+function add_file_or_folder(bFile) {
+    console.log(typeof bFile);
+    bFile = bFile == false ? false : true;
+
+    $("#dlg").dialog({
+        resizable: false,
+        width: 500,
+        title: bFile ? 'Add New File' : 'Add New Folder',
+        modal: true,
+        buttons: {
+            "Add": function () {
+                var name = $(this).find('input').val();
+                create_file_or_folder(currdid, name, bFile ? 'F' : 'D');
+                $(this).dialog("close");
+            },
+            Cancel: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+
+function create_file_or_folder(pid, name, type) {
+    var xhr = $.ajax({
+        "type": "POST",
+        "url": "<%=request.getContextPath()%>/file",
+        "data": {
+            "pid": pid,
+            "type": type,
+            "name": name
+        },
+        "dataType": "json"
+    });
+
+    xhr.done(function (data) {
+        load_sub_files(pid);
+    });
+
+    xhr.fail(function () {
+        load_sub_files(pid);
+    });
+}
+
 
 function backward(e) {
     var el = $(e.target);
     if (el.hasClass('dis')) return;
     var id = bstack.pop();
-    fstack.push(currid);
+    fstack.push(currdid);
     load_sub_files(id);
 }
 
@@ -152,7 +234,7 @@ function forward(e) {
     var el = $(e.target);
     if (el.hasClass('dis')) return;
     var id = fstack.pop();
-    bstack.push(currid);
+    bstack.push(currdid);
     load_sub_files(id);
 }
 
@@ -163,7 +245,7 @@ function onClickFile(e) {
     var li = e.closest('li');
     var fid = li.attr('fid');
     if (li.attr('t') == 'D') {
-        bstack.push(currid);
+        bstack.push(currdid);
         load_sub_files(fid);
     }
     else load_file_content(fid);
@@ -177,6 +259,7 @@ function load_file_content(fid) {
 
     xhr.done(function (data) {
         if (data.status_code === 200) {
+            currfid = fid;
             editor.setValue(data.response_text);
             editor.clearSelection();
         }
@@ -188,18 +271,12 @@ function load_file_content(fid) {
 }
 
 function save_content() {
-    var sel = $(".tree").jstree(true).get_selected();
-    if (sel.length !== 1) {
-        alert("multiple selected nodes not allowed while saving");
-        return;
-    }
 
-    sel = sel[0];
     var cont = editor.getValue();
 
     var xhr = $.ajax({
         "type": "POST",
-        "url": "<%=request.getContextPath()%>/content/" + sel,
+        "url": "<%=request.getContextPath()%>/content/" + currfid,
         "data": {
             "content": cont
         },
@@ -310,7 +387,7 @@ function load_sub_files(id) {
     else
         $("li.fa-arrow-left").removeClass('dis');
 
-    currid = id;
+    currdid = id;
 
     var xhr = $.ajax({
         "url": "<%= request.getContextPath() %>/file/" + id,

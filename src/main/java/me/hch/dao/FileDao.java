@@ -92,7 +92,7 @@ public class FileDao extends TheDao {
         File file = new File();
         file.setName(name);
         file.setType(type);
-        file.setPid(pid);
+        file.setPid(pid == 0 ? null : pid);
         file.setUsername(username);
 
         Session session = null;

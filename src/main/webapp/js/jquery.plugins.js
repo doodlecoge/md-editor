@@ -4,12 +4,23 @@
 
 
 (function ($) {
-    var dialog = $.widget('hch.dialog', {
+    var dialog = $.widget('hch.loading', {
         _create: function () {
-            if(this.wrapper) return;
-            this.wrapper = $('<div>').addClass("hch-dialog").hide();
-            $(document.body).append(this.wrapper);
+            if (this.wrapper) return;
+            this.wrapper = $('<div>').addClass('hch-dialog').hide()
+                .appendTo(document.body);
+
+            this.title = this.element.attr('title') || '';
+
+            $('<div>').addClass('hch-dialog-titlebar')
+                .html(this.title).appendTo(this.wrapper);
+
             this.element.show().appendTo(this.wrapper);
+
+            var btns = $('<div>').addClass('hch-dialog-buttonpane')
+                .appendTo(this.wrapper);
+            $('<button>').html('OK').appendTo(btns);
+            $('<button>').html('Cancel').appendTo(btns);
         },
         _init: function () {
             this.open();
