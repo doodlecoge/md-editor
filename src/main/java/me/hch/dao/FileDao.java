@@ -4,6 +4,7 @@ import me.hch.model.File;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ public class FileDao extends TheDao {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(File.class);
         criteria.add(Restrictions.eq("username", username));
+        criteria.addOrder(Order.asc("type"));
         if (parentId == 0)
             criteria.add(Restrictions.isNull("pid"));
         else
