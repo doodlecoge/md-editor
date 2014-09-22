@@ -4,39 +4,35 @@
 
 
 (function ($) {
-    var dialog = $.widget('hch.loading', {
+    var alert = $.widget('hch.alert', {
         _create: function () {
             if (this.wrapper) return;
-            this.wrapper = $('<div>').addClass('hch-dialog').hide()
+            this.alert = $('<div>').addClass('hch-alert').hide()
                 .appendTo(document.body);
-
-            this.title = this.element.attr('title') || '';
-
-            $('<div>').addClass('hch-dialog-titlebar')
-                .html(this.title).appendTo(this.wrapper);
-
-            this.element.show().appendTo(this.wrapper);
-
-            var btns = $('<div>').addClass('hch-dialog-buttonpane')
-                .appendTo(this.wrapper);
-            $('<button>').html('OK').appendTo(btns);
-            $('<button>').html('Cancel').appendTo(btns);
         },
         _init: function () {
             this.open();
         },
         open: function () {
             this._createOverlay();
-            this.wrapper.show();
-            this.wrapper.position({
+            this.alert.show();
+            this.alert.position({
                 my: "center",
                 at: "center",
                 of: window
             });
         },
+        alert: function (msg) {
+            this.alert.html(msg);
+        },
         _createOverlay: function () {
             if (this.overlay) return;
-            this.overlay = $('<div>').addClass('hch-overlay').appendTo(document.body);
+            this.overlay = $("<div>")
+                .addClass("ui-widget-overlay ui-front")
+                .appendTo(document.body);
+        },
+        _destroyOverlay: function () {
+            this.overlay.hide();
         },
         close: function () {
             this.wrapper.hide();

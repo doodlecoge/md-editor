@@ -174,6 +174,7 @@ $(function () {
     });
 
 
+    $(document.body).alert('alert', 'hi huaichao');
 });
 
 
