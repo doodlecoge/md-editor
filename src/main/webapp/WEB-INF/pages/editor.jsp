@@ -172,9 +172,6 @@ $(function () {
     $("#save").click(function () {
         save_content();
     });
-
-
-    $(document.body).alert('alert', 'hi huaichao');
 });
 
 
@@ -272,6 +269,9 @@ function load_file_content(fid) {
 }
 
 function save_content() {
+    if (!currfid) return;
+
+    hch.alert.show('Saving...');
 
     var cont = editor.getValue();
 
@@ -285,11 +285,13 @@ function save_content() {
     });
 
     xhr.done(function (data) {
-        console.log(data);
+        hch.alert.close();
+        hch.alert.show('Save Succeeded!', false, 2000);
     });
 
     xhr.fail(function (data) {
-        console.log(data);
+        hch.alert.close();
+        hch.alert.show('Saving Failed!', false, 2000);
     });
 }
 
