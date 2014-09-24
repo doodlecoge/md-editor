@@ -75,6 +75,12 @@
 <div id="content">
     <div class="tool-win">
         <div class="sub-files"></div>
+        <div class="file panel">
+            <i class="fa fa-file-text-o"></i>
+            <i class="fa fa-check" style="float: right;"></i>
+            <i class="fa fa-times" style="float: right; margin-right: 5px"></i>
+            <input type="text"/>
+        </div>
     </div>
     <div class="designer vertical trans">
         <div class="editor trans"></div>

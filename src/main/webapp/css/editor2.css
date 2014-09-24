@@ -104,6 +104,14 @@ body {
     /*-webkit-box-shadow:0px 1px 1px #000;*/
 }
 
+#tool_bar li:active {
+    color: #800;
+    background-image: -moz-linear-gradient(#ec6, #db6);
+    background-image: -webkit-linear-gradient(#ec6, #db6);
+    background-image: linear-gradient(#ec6, #db6);
+    background-repeat: repeat-x;
+}
+
 #tool_bar li.sep {
     width: 10px;
     border: 0;
@@ -344,6 +352,38 @@ div.path span:hover {
 
 #content .tool-win ul li span {
     padding-left: 10px;
+}
+
+#content .tool-win .panel {
+    border-bottom: 1px solid #ccc;
+    height: 25px;
+    line-height: 35px;
+    padding: 5px;
+}
+
+#content .tool-win .panel input {
+    height: 25px;
+    line-height: 25px;
+    position: absolute;
+    left: 20px; right: 50px;
+    outline: none;
+    border: 0;
+    border-bottom: 1px dotted #ccc;
+    padding: 0 5px;
+    font-size: 16px;
+    color: orange;
+}
+
+#content .tool-win .panel i {
+    height: 25px;
+    line-height: 25px;
+    vertical-align: top;
+}
+
+#content .tool-win .panel:after {
+    content: " ";
+    display: block;
+    clear: both;
 }
 
 .trans {
