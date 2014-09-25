@@ -340,12 +340,13 @@ div.path span:hover {
     background-repeat: repeat-x;
     border-bottom: 1px solid #ccc;
     padding-left: 5px;
+    position: relative;
 }
 
 #content .tool-win ul li:hover {
-    background-image: -moz-linear-gradient(#ffffff,     #cef);
-    background-image: -webkit-linear-gradient(#ffffff,  #cef);
-    background-image: linear-gradient(#ffffff,          #cef);
+    background-image: -moz-linear-gradient(#cdf,     #9bd);
+    background-image: -webkit-linear-gradient(#cdf,  #9bd);
+    background-image: linear-gradient(#cdf,          #9bd);
     background-repeat: repeat-x;
     border-bottom: 1px solid #ccc;
 }

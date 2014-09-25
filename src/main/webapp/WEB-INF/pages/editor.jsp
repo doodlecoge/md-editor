@@ -75,10 +75,16 @@
 <div id="content">
     <div class="tool-win">
         <div class="sub-files"></div>
-        <div class="file panel">
+        <div class="file panel" style="display: none;">
             <i class="fa fa-file-text-o"></i>
-            <i class="fa fa-check" style="float: right;"></i>
-            <i class="fa fa-times" style="float: right; margin-right: 5px"></i>
+            <i class="fa fa-check" style="float: right; color: green;"></i>
+            <i class="fa fa-times" style="float: right; color: red; margin-right: 5px"></i>
+            <input type="text"/>
+        </div>
+        <div class="folder panel" style="display: none;">
+            <i class="fa fa-folder-o"></i>
+            <i class="fa fa-check" style="float: right; color: green;"></i>
+            <i class="fa fa-times" style="float: right; color: red; margin-right: 5px"></i>
             <input type="text"/>
         </div>
     </div>
@@ -168,15 +174,66 @@ $(function () {
     load_sub_files(0);
 
     $("#add_folder").click(function () {
-        add_file_or_folder(false)
+        $(".file.panel").hide();
+        $(".folder.panel").show().effect("highlight", {"color": "#e00"}, 1000);
+        $(".folder.panel").find("input").val('New Folder').select();
+//        add_file_or_folder(false)
+    });
+
+    $(".file.panel").find('.fa-times').click(function (e) {
+        $(e.target).parent().hide();
+    });
+
+    $(".folder.panel").find('.fa-times').click(function (e) {
+        $(e.target).parent().hide();
+    });
+
+    $(".file.panel").find('.fa-check').click(function (e) {
+        var name = $(e.target).parent().find('input').val();
+        create_file_or_folder(currdid, name, 'F');
+    });
+
+    $(".folder.panel").find('.fa-check').click(function (e) {
+        var name = $(e.target).parent().find('input').val();
+        create_file_or_folder(currdid, name, 'D');
     });
 
     $("#add_file").click(function () {
-        add_file_or_folder(true)
+        $(".folder.panel").hide();
+        $(".file.panel").show();
+
+        $(".folder.panel").hide();
+        $(".file.panel").show().effect("highlight", {"color": "#e00"}, 1000);
+        $(".file.panel").find("input").val('New File').select();
+//        add_file_or_folder(true)
     });
 
     $("#save").click(function () {
         save_content();
+    });
+
+    // todo: prevent event propgation
+    $(".sub-files").click(function (e) {
+        var t = $(e.target);
+        if(!t.hasClass('fa-times')) return;
+        var fid = t.parent().attr('fid');
+
+        var xhr = $.ajax({
+            "type": "DELETE",
+            "url": "<%=request.getContextPath()%>/file/" + fid,
+            "dataType": "json"
+        });
+
+        xhr.done(function (data) {
+            if (!data.error) {
+                t.parent().remove();
+            }
+        });
+
+        xhr.fail(function () {
+
+        });
+
     });
 });
 
@@ -184,6 +241,7 @@ $(function () {
 function add_file_or_folder(bFile) {
     console.log(typeof bFile);
     bFile = bFile == false ? false : true;
+
 
     $("#dlg").dialog({
         resizable: false,
@@ -218,10 +276,12 @@ function create_file_or_folder(pid, name, type) {
 
     xhr.done(function (data) {
         load_sub_files(pid);
+        $('.panel').hide();
     });
 
     xhr.fail(function () {
         load_sub_files(pid);
+        $('.panel').hide();
     });
 }
 
@@ -425,6 +485,20 @@ function load_sub_files(id) {
             item.append('<i class="fa ' + cls + '"></i>');
             item.append('<span>' + file.name + '</span>');
             lst.append(item);
+        });
+
+
+        $(".sub-files").find('li').hover(function () {
+            var p = $(".sub-files");
+            if (!p.data('close-btn')) {
+                var del = $('<i class="fa fa-times" style="color: red; position: absolute; right: 8px; top: 8px;">');
+                $(".sub-files").data('close-btn', del);
+            }
+            $(this).append($('.sub-files').data('close-btn').show());
+        });
+
+        $(".sub-files").mouseleave(function () {
+            $(this).find('.fa-times').hide();
         });
     });
 
