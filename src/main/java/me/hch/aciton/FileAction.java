@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import me.hch.dao.ContentDao;
 import me.hch.dao.FileDao;
+import me.hch.model.Content;
 import me.hch.model.File;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,17 @@ public class FileAction {
     @ResponseBody
     @RequestMapping(value = "/{pid}")
     public String getSubfolders(@PathVariable int pid) {
+        File curFile = fileDao.getFile(pid);
+
+        // if it is a file not folder, return file content
+        if (curFile != null && curFile.getType() == File.FileType.F) {
+            Content content = contentDao.getContent(pid);
+            String c = content == null ? "" : content.getContent();
+            JsonObject jobj = new JsonObject();
+            jobj.addProperty("content", c);
+            return jobj.toString();
+        }
+
         JsonArray jarrFiles = new JsonArray();
         List<File> files = fileDao.getChildren(username, pid);
         for (File file : files) {

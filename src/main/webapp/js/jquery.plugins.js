@@ -107,3 +107,18 @@ $(function () {
 //        }
 //    });
 //})(jQuery);
+
+
+(function ($) {
+    var autoWidthInput = $.widget('hch.AutoWidthInput', {
+        _create: function () {
+            console.log(this);
+            if (this.wrapper) return;
+            this.wrapper = $('<span>').hide().appendTo(document.body);
+            this.input = $('<input type="text">').appendTo(this.wrapper);
+        },
+        _init: function () {
+
+        }
+    });
+})(jQuery);

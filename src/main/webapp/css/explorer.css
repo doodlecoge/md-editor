@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+}
+#tool_bar table {
+    font-size: 0;
+    border-spacing: 0;
+    background: #ccc;
+    background-color: #eeeeee;
+    background-image: -moz-linear-gradient(#f0f0f0, #ddd);
+    background-image: -webkit-linear-gradient(#f0f0f0, #ddd);
+    background-image: linear-gradient(#f0f0f0, #ddd);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #aaa;
+}
+#tool_bar td {
+    font-size: 14px;
+    white-space: nowrap;
+    height: 45px;
+}
+#tool_bar a.btn {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    font-family: Helvetica, Arial, "微软雅黑", "宋体", Tahoma, Geneva, sans-serif;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+    text-decoration: none;
+    outline: none;
+
+    border: 1px solid #1b5480;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+
+    padding: 0 10px;
+    line-height: 24px;
+    margin-right: 10px;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    background-color: #287bbc;
+    filter: progid: DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF287BBC', endColorstr='#FF23639A');
+    background-image: -webkit-linear-gradient(top, #287bbc 0%, #23639a 100%);
+    background-image: -moz-linear-gradient(top, #287bbc 0%, #23639a 100%);
+    background-image: -o-linear-gradient(top, #287bbc 0%, #23639a 100%);
+    background-image: linear-gradient(top, #287bbc 0%, #23639a 100%);
+    white-space: nowrap;
+
+    display: -moz-inline-stack;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+#tool_bar a.btn:hover {
+    background-color: #2672ae;
+    filter: progid: DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF2672AE', endColorstr='#FF1E4F7E');
+    background-image: -webkit-linear-gradient(top, #2672ae 0%, #1e4f7e 100%);
+    background-image: -moz-linear-gradient(top, #2672ae 0%, #1e4f7e 100%);
+    background-image: -o-linear-gradient(top, #2672ae 0%, #1e4f7e 100%);
+    background-image: linear-gradient(top, #2672ae 0%, #1e4f7e 100%);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25)
+}
+#tool_bar a.btn:active {
+    color: darkorange;
+}
+#tool_bar a.btn:focus {
+    color: darkorange;
+}
+
+
+
+#tool_bar div.path {
+    border: 0;
+    padding: 0 4px;
+    height: 33px;
+    line-height: 33px;
+    outline: none;
+    border: 1px solid #bbb;
+    background: #f8f8f8;
+    -moz-border-radius: 3px; /* Gecko browsers */
+    -webkit-border-radius: 3px; /* Webkit browsers */
+    border-radius: 3px; /* W3C syntax */
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#tool_bar div.path span {
+    margin: 2px;
+    padding: 2px 5px;
+    border: 1px solid #bbb;
+    background: #eee;
+    -moz-border-radius: 3px; /* Gecko browsers */
+    -webkit-border-radius: 3px; /* Webkit browsers */
+    border-radius: 3px; /* W3C syntax */
+    cursor: pointer;
+}
+
+#tool_bar div.path span:hover {
+    background: #cde;
+    border: 1px solid #79c;
+}
+
+#content ul {
+    margin: 0;
+    padding: 0;
+}
+#content ul li {
+    list-style: none;
+    line-height: 30px;
+    padding: 0 10px;
+    border-bottom: 1px dashed #aaa;
+}
+#content ul li:hover {
+    background: #eee;
+}
+#content ul li a {
+    margin-left: 5px;
+}
+#content ul li i.times, #content ul li i.edit {
+    float: right;
+    line-height: 30px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+#content ul li i.times:hover {
+    color: red;
+}
+#content ul li i.edit:hover {
+    color: blue;
+}
+#content ul li input.ipt {
+    height: 25px;
+    line-height: 25px;
+    border: 0;
+    margin-left: 5px;
+    position: absolute;
+    left: 30px;
+    right: 60px;
+    top: 2px;
+}
