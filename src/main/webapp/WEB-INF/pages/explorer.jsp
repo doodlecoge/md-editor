@@ -435,7 +435,9 @@ table.list i._btn {
     function retrieveFile(fid) {
         fop.retriveFile(fid, function (data) {
             if (typeof data['content'] != "undefined") {
-                $("#work_area").show(200);
+                $("#work_area").show();
+                editor.setValue(data['content'] || '');
+                editor.resize();
 //                $("#content").html(data['content'] || '');
             } else if (data['files']) {
                 dirid = fid;
@@ -503,7 +505,7 @@ table.list i._btn {
     editor.session.on('changeScrollTop', syncPreview);
 
     function syncPreview() {
-        var v = $(".preview");
+        var v = $(".viewer");
         var n = editor.getSession().getLength();
         var i = editor.getFirstVisibleRow();
         var r = getScrollHeight(v);
