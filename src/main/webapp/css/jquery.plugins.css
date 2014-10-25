@@ -1,12 +1,95 @@
-.hch-alert {
-    position: absolute;
-    padding: 10px 20px;
-    z-index: 10001;
-    background: #ca4;
+#confirm_dialog {
+    position: fixed;
+    top: 50;
+    left: 50%;
+    min-width: 400px;
+    z-index: 1001;
+    background-color: #fff;
 
-    -moz-box-shadow: 0px 0px 10px #000;
-    -webkit-box-shadow: 0px 0px 10px #000;
-    box-shadow: 0px 0px 10px #000;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=10, Direction=90, Color='#000000')";
-    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=10, Direction=90, Color='#000000');
+    -moz-border-radius: 5px; /* Gecko browsers */
+    -webkit-border-radius: 5px; /* Webkit browsers */
+    border-radius: 5px; /* W3C syntax */
+    border: 1px solid #ccc;
+
+    -webkit-box-shadow: 0 0px 10px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0 0px 10px rgba(0, 0, 0, 1);
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 1);
+}
+
+#confirm_dialog .title {
+    border-bottom: 1px solid #ccc;
+    line-height: 45px;
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+
+    background-color: #eeeeee;
+    background-image: -moz-linear-gradient(#f0f0f0, #ddd);
+    background-image: -webkit-linear-gradient(#f0f0f0, #ddd);
+    background-image: linear-gradient(#f0f0f0, #ddd);
+    background-repeat: repeat-x;
+
+    -moz-border-radius-topleft: 5px; /* Gecko browsers */
+    -moz-border-radius-topright: 5px; /* Gecko browsers */
+    -webkit-border-top-left-radius: 5px; /* Webkit browsers */
+    -webkit-border-top-right-radius: 5px; /* Webkit browsers */
+    -moz-border-radius-topleft: 5px; /* W3C syntax */
+    -moz-border-radius-topright: 5px; /* W3C syntax */
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#confirm_dialog .content {
+    padding: 10px;
+    min-height: 200px;
+
+}
+
+#confirm_dialog .buttons {
+    text-align: right;
+    padding: 5px;
+    border-top: 1px solid #ccc;
+}
+
+#confirm_dialog .buttons button {
+    border-radius: 100px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    padding: 5px 20px;
+}
+
+#confirm_dialog .buttons button:hover {
+    border: 1px solid #888;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    opacity: .3;
+    filter: Alpha(Opacity=30); /* support: IE8 */
+    background-color: #000;
+}
+
+
+
+#dialog {
+    position: fixed;
+    left: 50%;
+    min-width: 400px;
+    z-index: 1001;
+    background-color: #fff;
+    padding: 10px;
+
+    -moz-border-radius: 5px; /* Gecko browsers */
+    -webkit-border-radius: 5px; /* Webkit browsers */
+    border-radius: 5px; /* W3C syntax */
+    border: 1px solid #ccc;
+
+    -webkit-box-shadow: 0 0px 10px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0 0px 10px rgba(0, 0, 0, 1);
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 1);
 }

@@ -1,124 +1,103 @@
 /**
  * Created by hch on 2014/7/31.
  */
-$(function () {
-    if (window)
-        window.hch = function (name, prototype) {
-            function foo() {
-            }
-
-            foo.prototype = prototype;
-            var obj = hch[name] = new foo();
-            return obj;
-        };
-
-    hch('alert', {
-        _init: function () {
-            var el = document.body;
-            this.dialog = $('<div>').addClass('hch-alert')
-                .hide().appendTo(el);
-
-            // use shared overlay
-            if ($(el).data('hch.overlay')) {
-                this.overlay = $(el).data('hch.overlay');
-            } else {
-                this.overlay = $("<div>")
-                    .addClass("ui-widget-overlay ui-front")
-                    .hide().appendTo(el);
-                $(el).data('hch.overlay', this.overlay);
-            }
-        },
-        show: function (msg, modal, duration) {
-            if (!this.dialog) this._init();
-            if (modal) this.overlay.show();
-            this.dialog.html(msg).show().position({
-                my: "center top",
-                at: "center top+10",
-                of: window
-            });
-            // close after 'duration' milliseconds
-            if (typeof duration === 'number') {
-                setTimeout((function (_this) {
-                    return function () {
-                        _this.close();
-                    }
-                })(this), duration);
-            }
-            return this;
-        },
-        close: function (duration, delay) {
-            if (!this.dialog) this._init();
-            duration = duration || 0;
-            if (typeof delay === 'number') {
-                setTimeout((function (_this) {
-                    return function () {
-                        _this.overlay.hide(duration);
-                        this.dialog.hide(duration).html('');
-                    }
-                })(this), delay);
-            } else {
-                this.overlay.hide(duration);
-                this.dialog.hide(duration).html('');
-            }
-            return this;
-        }
-    })
-    ;
-});
-
-
-//(function ($) {
-//    var alert = $.widget('hch.alert', {
-//        _create: function () {
-//            if (this.alert) return;
-//            this.alert = $('<div>').addClass('hch-alert').hide()
-//                .appendTo(document.body);
-//        },
-//        _init: function () {
-//            this.open();
-//        },
-//        open: function () {
-//            this._createOverlay();
-//            this.alert.show();
-//            this.alert.position({
-//                my: "center top",
-//                at: "center top+10",
-//                of: window
-//            });
-//        },
-//        show: function (msg) {
-//            this.alert.html(msg);
-//        },
-//        _createOverlay: function () {
-//            if (this.overlay) return;
-//            this.overlay = $("<div>")
-//                .addClass("ui-widget-overlay ui-front")
-//                .appendTo(document.body);
-//        },
-//        _destroyOverlay: function () {
-//            this.overlay.hide();
-//        },
-//        close: function () {
-//            this.alert.hide();
-//            this._destroyOverlay();
-//        },
-//        _destroyOverlay: function () {
-//            this.overlay.hide();
-//        }
-//    });
-//})(jQuery);
-
-
 (function ($) {
-    var autoWidthInput = $.widget('hch.AutoWidthInput', {
-        _create: function () {
-            console.log(this);
-            if (this.wrapper) return;
-            this.wrapper = $('<span>').hide().appendTo(document.body);
-            this.input = $('<input type="text">').appendTo(this.wrapper);
+    $.obj = $.obj || {};
+
+    function _H(name, prototype) {
+        if ($.obj.name) return;
+        var constructor = function () {
+
+        }
+        constructor.prototype = prototype || {};
+        return $.obj[name] = new constructor();
+    }
+
+    _H('dialog', {
+        showDelay: null,
+        closeDelay: null,
+        _init: function () {
+            if (this.overlay) return;
+            this.overlay = $('<div class="overlay">').appendTo(document.body).hide();
+            this.dlg = $('<div id="dialog">').appendTo(document.body).hide();
+        },
+        loading: function (ajax, msg, cb) {
+            this._init();
+            this.overlay.show();
+            this.dlg.show().html(msg);
+
+            this.dlg.css('margin-left', (-this.dlg.width() / 2) + 'px');
+            this.dlg.css('margin-top', (-this.dlg.height() / 2) + 'px');
+
+            var xhr = $.ajax(ajax);
+            xhr.done(cb).fail(cb);
+        },
+        show: function (msg, delay) {
+            this._init();
+            var _this = this;
+            this.showDelay = setTimeout(function () {
+                _this.overlay.show();
+                _this.dlg.show();
+                _this.dlg.html(msg);
+            }, delay);
+        },
+        close: function () {
+            if (this.showDelay) {
+                clearTimeout(this.showDelay);
+                this.showDelay = null;
+            }
+            this.overlay.hide();
+            this.dlg.hide();
+        }
+    });
+
+
+    _H('confirm', {
+        show: function (title, msg, cb_ok) {
+            var _this = this;
+            this._init();
+            this.dlg.show();
+            this.overlay.show();
+
+            this.dlg.find('.title').html(title);
+            this.dlg.find('.content').html(msg);
+            this.dlg.find('.ok').unbind().click(function () {
+                cb_ok();
+                _this._close();
+            });
+
+            this.dlg.css('margin-left', (-this.dlg.width() / 2) + 'px');
+            this.dlg.css('top', '0');
+            var top = ($(window).height() - this.dlg.height());
+            if (top > 0) this.dlg.animate({'top': (top / 4) + 'px'});
+            else this.dlg.css('top', (top / 2) + 'px');
+        },
+        _close: function () {
+            this.dlg.animate({'top': '0'}).hide();
+            this.overlay.hide();
         },
         _init: function () {
+            if (this.dlg) return;
+            this.dlg = $(document.body).find('#confirm_dialog');
+            if (this.dlg.length == 0) {
+                var str = '' +
+                    '<div id="confirm_dialog">' +
+                    '   <div class="title"></div>' +
+                    '   <div class="content"></div>' +
+                    '   <div class="buttons">' +
+                    '       <button class="ok">OK</button>' +
+                    '       <button class="cancel">Cancel</button>' +
+                    '   </div>' +
+                    '</div>';
+                var dlg = this.dlg = $(str).appendTo(document.body).hide();
+                var overlay = this.overlay = $('<div class="overlay">')
+                    .hide().appendTo(document.body);
 
+                this.dlg.find('.cancel').click(function () {
+                    dlg.slideUp(200);
+                    overlay.fadeOut(200);
+                });
+            }
         }
     });
 })(jQuery);
