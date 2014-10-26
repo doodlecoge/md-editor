@@ -55,7 +55,7 @@ crud.prototype = {
         this._call({
             "type": "POST",
             "url": (this.baseURI || "") + "/content/" + fid,
-            "data": { "content": cont },
+            "data": { "content": content },
             "dataType": "json"
         }, callback);
     }

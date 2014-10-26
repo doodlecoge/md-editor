@@ -6,6 +6,7 @@ import me.hch.dao.ContentDao;
 import me.hch.dao.FileDao;
 import me.hch.model.Content;
 import me.hch.model.File;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,7 +50,8 @@ public class FileAction {
 
 
     @ResponseBody
-    @RequestMapping(value = "/{pid}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{pid}",
+            produces = "application/json; charset=utf-8")
     public String getSubfolders(@PathVariable int pid) {
         File curFile = fileDao.getFile(pid);
 
@@ -59,7 +61,8 @@ public class FileAction {
             String c = content == null ? "" : content.getContent();
             JsonObject jobj = new JsonObject();
             jobj.addProperty("content", c);
-            return jobj.toString();
+            String b = jobj.toString();
+            return b;
         }
 
         JsonArray jarrFiles = new JsonArray();

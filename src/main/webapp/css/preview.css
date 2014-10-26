@@ -1,131 +1,17 @@
-.preview {
-    font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+.viewer {
+    font-family: "Arvo","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    border: 0;
-    -ms-interpolation-mode: bicubic
-}
-
-
-code, pre {
-    padding: 0 3px 2px;
-    font-family: Menlo, Monaco, "Courier New", monospace;
-    font-size: 12px;
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    margin: 0;
     color: #444;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px
-}
-
-code {
-    padding: 3px 4px;
-    color: #d14;
-    background-color: #f7f7f9;
-    border: 1px solid #e1e1e8
-}
-
-pre {
-    display: block;
-    padding: 8.5px;
-    margin: 0 0 9px;
-    font-size: 12px;
-    line-height: 18px;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    white-space: pre;
-    white-space: pre-wrap;
-    word-break: break-all;
-    word-wrap: break-word
-}
-
-pre.prettyprint {
-    margin-bottom: 18px
-}
-
-pre code {
-    padding: 0;
-    color: inherit;
-    background-color: transparent;
-    border: 0
-}
-
-.pre-scrollable {
-    max-height: 340px;
-    overflow-y: scroll;
 }
 
 blockquote {
-    padding: 0 0 0 15px;
-    margin: 0 0 18px;
-    border-left: 10px solid #eee;
-    background: #fefefe;
+    font-family: "Arvo","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #888;
 }
 
-
-h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-    font-weight: bold;
-    color: #444;
-    text-rendering: optimizelegibility
-}
-
-h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
-    font-weight: normal;
-    color: #999
-}
-
-h1 {
-    font-size: 30px;
-    line-height: 36px
-}
-
-h1 small {
-    font-size: 18px
-}
-
-h2 {
-    font-size: 24px;
-    line-height: 36px
-}
-
-h2 small {
-    font-size: 18px
-}
-
-h3 {
-    line-height: 27px;
-    font-size: 18px
-}
-
-h3 small {
-    font-size: 14px
-}
-
-h4, h5, h6 {
-    line-height: 18px
-}
-
-h4 {
-    font-size: 14px
-}
-
-h4 small {
-    font-size: 12px
-}
-
-h5 {
-    font-size: 12px
-}
-
-h6 {
-    font-size: 11px;
-    color: #999;
-    text-transform: uppercase
+p {
 }

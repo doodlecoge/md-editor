@@ -32,6 +32,21 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-theme.css">
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.11.1.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
+<style type="text/css">
+    @font-face {
+        font-family: 'Arvo';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Arvo'), url(<%=request.getContextPath()%>/fonts/arvo.woff) format('woff');
+    }
+
+    @font-face {
+        font-family: 'Arvo';
+        font-style: normal;
+        font-weight: 700;
+        src: local('Arvo Bold'), local('Arvo-Bold'), url(<%=request.getContextPath()%>/fonts/arvo_bold.woff) format('woff');
+    }
+</style>
 <%
 } else {
 %>
@@ -39,245 +54,222 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<style type="text/css">
+
+    @font-face {
+        font-family: 'Arvo';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Arvo'), url(https://fonts.gstatic.com/s/arvo/v8/BM-nqL-L5PgjKPDNaleWB_esZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+
+    @font-face {
+        font-family: 'Arvo';
+        font-style: normal;
+        font-weight: 700;
+        src: local('Arvo Bold'), local('Arvo-Bold'), url(https://fonts.gstatic.com/s/arvo/v8/_OKjjqM9ed2qvTR07QdjWwLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+</style>
 <%
     }
 %>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery.plugins.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/preview.css">
 <script type="text/javascript"
         src="<%=request.getContextPath()%>/js/jquery.plugins.js"></script>
 
 
 <style type="text/css">
-#tool_bar {
-    display: table;
-    width: 100%;
-    padding: 5px 2px;
-    background-color: #eeeeee;
-    background-image: -moz-linear-gradient(#f0f0f0, #ddd);
-    background-image: -webkit-linear-gradient(#f0f0f0, #ddd);
-    background-image: linear-gradient(#f0f0f0, #ddd);
-    background-repeat: repeat-x;
-    border-bottom: 1px solid #aaa;
-    height: 45px;
-    overflow: hidden;
-}
+    #tool_bar {
+        display: table;
+        width: 100%;
+        padding: 5px 2px;
+        background-color: #eeeeee;
+        background-image: -moz-linear-gradient(#f0f0f0, #ddd);
+        background-image: -webkit-linear-gradient(#f0f0f0, #ddd);
+        background-image: linear-gradient(#f0f0f0, #ddd);
+        background-repeat: repeat-x;
+        border-bottom: 1px solid #aaa;
+        height: 45px;
+    }
 
-#tool_bar .path {
-    width: 100%;
-    padding: 0 4px;
-    height: 33px;
-    line-height: 33px;
-    outline: none;
-    border: 1px solid #bbb;
-    background: #f8f8f8;
-    -moz-border-radius: 3px; /* Gecko browsers */
-    -webkit-border-radius: 3px; /* Webkit browsers */
-    border-radius: 3px; /* W3C syntax */
-    font-size: 16px;
-    box-sizing: border-box;
-}
+    #tool_bar .path {
+        width: 100%;
+        padding: 0 4px;
+        height: 33px;
+        line-height: 33px;
+        outline: none;
+        border: 1px solid #bbb;
+        background: #f8f8f8;
+        -moz-border-radius: 3px; /* Gecko browsers */
+        -webkit-border-radius: 3px; /* Webkit browsers */
+        border-radius: 3px; /* W3C syntax */
+        font-size: 16px;
+        box-sizing: border-box;
+    }
 
-#tool_bar .btns {
-    display: table-cell;
-    width: 0;
-    white-space: nowrap;
-    padding: 0 0 0 10px;
-}
+    #tool_bar .path span {
+        cursor: pointer;
+        background: #ddd;
+        -moz-border-radius: 3px; /* Gecko browsers */
+        -webkit-border-radius: 3px; /* Webkit browsers */
+        border-radius: 3px; /* W3C syntax */
+        font-size: 16px;
+        margin-right: 5px;
+        padding: 2px 5px;
+    }
 
-#tool_bar a.btn {
-    font-size: 14px;
-    font-weight: bold;
-    color: #fff;
-    font-family: Helvetica, Arial, "微软雅黑", "宋体", Tahoma, Geneva, sans-serif;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
-    text-decoration: none;
-    outline: none;
+    #tool_bar .path span:hover {
+        background: #ccc;
+    }
 
-    border: 1px solid #1b5480;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    border-radius: 3px;
+    table.list {
+        width: 100%;
+    }
 
-    padding: 0 10px;
-    line-height: 24px;
+    table.list td {
+        width: 24px;
+        /*padding: 0 5px;*/
+        text-align: center;
+        height: 30px;
+    }
 
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    table.list tr {
+        border-bottom: 1px solid #cccccc;
+    }
 
-    background-color: #287bbc;
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF287BBC', endColorstr='#FF23639A');
-    background-image: -webkit-linear-gradient(top, #287bbc 0%, #23639a 100%);
-    background-image: -moz-linear-gradient(top, #287bbc 0%, #23639a 100%);
-    background-image: -o-linear-gradient(top, #287bbc 0%, #23639a 100%);
-    background-image: linear-gradient(top, #287bbc 0%, #23639a 100%);
-    white-space: nowrap;
+    table.list tr.even {
+        background: #efefef;
+    }
 
-    display: -moz-inline-stack;
-    display: inline-block;
-    zoom: 1;
-    *display: inline;
-}
+    table.list tr:hover {
+    }
 
-#tool_bar a.btn:hover {
-    background-color: #2672ae;
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF2672AE', endColorstr='#FF1E4F7E');
-    background-image: -webkit-linear-gradient(top, #2672ae 0%, #1e4f7e 100%);
-    background-image: -moz-linear-gradient(top, #2672ae 0%, #1e4f7e 100%);
-    background-image: -o-linear-gradient(top, #2672ae 0%, #1e4f7e 100%);
-    background-image: linear-gradient(top, #2672ae 0%, #1e4f7e 100%);
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25)
-}
+    table.list td.c2 {
+        width: auto;
+        text-align: left;
+    }
 
-#tool_bar a.btn:active {
-    color: darkorange;
-}
+    input.text {
+        border: 0;
+        border-bottom: 1px dashed #cccccc;
+        padding: 0;
+        width: 100%;
+        background: transparent;
+        outline: none;
+    }
 
-#tool_bar a.btn:focus {
-    color: darkorange;
-}
+    table.list i.del {
+        color: #f00;
+    }
 
-table.list {
-    width: 100%;
-}
+    table.list i.ok {
+        color: green;
+    }
 
-table.list td {
-    width: 24px;
-    /*padding: 0 5px;*/
-    text-align: center;
-    height: 30px;
-}
+    table.list i.cancel {
+        color: orange;
+    }
 
-table.list tr {
-    border-bottom: 1px solid #cccccc;
-}
+    table.list i._btn {
+        cursor: pointer;
+    }
 
-table.list tr.even {
-    background: #efefef;
-}
+    #tool_bar table {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
 
-table.list tr:hover {
-}
+    #tool_bar table td {
+        white-space: nowrap;
+        padding: 0 2px;
+    }
 
-table.list td.c2 {
-    width: auto;
-    text-align: left;
-}
+    #file_name {
+        width: 50px;
+        border: 1px solid #bbb;
+        height: 33px;
+        background: #f8f8f8;
+        -moz-border-radius: 3px; /* Gecko browsers */
+        -webkit-border-radius: 3px; /* Webkit browsers */
+        border-radius: 3px; /* W3C syntax */
+        font-size: 16px;
+        box-sizing: border-box;
+        line-height: 25px;
+        padding: 0 5px;
+        outline: none;
+        -webkit-transition: width 0.5s ease;
+        transition: width 0.5s ease;
+    }
 
-input.text {
-    border: 0;
-    border-bottom: 1px dashed #cccccc;
-    padding: 0;
-    width: 100%;
-    background: transparent;
-    outline: none;
-}
+    #file_name:focus {
+        width: 200px;
+    }
 
-table.list i.del {
-    color: #f00;
-}
+    #work_area {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #ddd;
+        display: none;
+    }
 
-table.list i.ok {
-    color: green;
-}
+    #work_area .btns {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 50%;
+        margin-right: 4px;
+        background: #ccc;
+        border-right: 1px solid #bbb;
+        border-bottom: 1px solid #bbb;
+        height: 45px;
+        line-height: 45px;
+        background: #ddd;
+        padding-bottom: 5px;
 
-table.list i.cancel {
-    color: orange;
-}
+        background-color: #eeeeee;
+        background-image: -moz-linear-gradient(#f0f0f0, #ddd);
+        background-image: -webkit-linear-gradient(#f0f0f0, #ddd);
+        background-image: linear-gradient(#f0f0f0, #ddd);
+        background-repeat: repeat-x;
+    }
 
-table.list i._btn {
-    cursor: pointer;
-}
+    #work_area .editor {
+        position: absolute;
+        top: 45px;
+        right: 50%;
+        bottom: 0;
+        left: 0px;
+        margin-right: 4px;
+        background: #fff;
+        border-right: 1px solid #bbb;
+    }
 
-#tool_bar table {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-}
+    #work_area .viewer {
+        position: absolute;
+        top: 0;
+        right: 0px;
+        bottom: 0;
+        left: 50%;
+        margin-left: 3px;
+        background: #fff;
+        border-left: 1px solid #bbb;
+        padding: 5px;
+        overflow-y: auto;
+    }
 
-#tool_bar table td {
-    white-space: nowrap;
-    padding: 0 2px;
-}
+    .btn {
+        height: 30px;
+        line-height: 30px;
+        padding: 0 10px;
+    }
 
-#file_name {
-    width: 50px;
-    border: 1px solid #bbb;
-    height: 33px;
-    background: #f8f8f8;
-    -moz-border-radius: 3px; /* Gecko browsers */
-    -webkit-border-radius: 3px; /* Webkit browsers */
-    border-radius: 3px; /* W3C syntax */
-    font-size: 16px;
-    box-sizing: border-box;
-    line-height: 25px;
-    padding: 0 5px;
-    outline: none;
-    -webkit-transition: width 0.5s ease;
-    transition: width 0.5s ease;
-}
 
-#file_name:focus {
-    width: 200px;
-}
-
-#work_area {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #ddd;
-    display: none;
-}
-
-#work_area .btns {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 50%;
-    margin-right: 4px;
-    background: #ccc;
-    border-right: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
-    height: 45px;
-    line-height: 45px;
-    background: #ddd;
-    padding-bottom: 5px;
-
-    background-color: #eeeeee;
-    background-image: -moz-linear-gradient(#f0f0f0, #ddd);
-    background-image: -webkit-linear-gradient(#f0f0f0, #ddd);
-    background-image: linear-gradient(#f0f0f0, #ddd);
-    background-repeat: repeat-x;
-}
-
-#work_area .editor {
-    position: absolute;
-    top: 45px;
-    right: 50%;
-    bottom: 0;
-    left: 0px;
-    margin-right: 4px;
-    background: #fff;
-    border-right: 1px solid #bbb;
-}
-
-#work_area .viewer {
-    position: absolute;
-    top: 0;
-    right: 0px;
-    bottom: 0;
-    left: 50%;
-    margin-left: 3px;
-    background: #fff;
-    border-left: 1px solid #bbb;
-}
 </style>
 </head>
 <body>
@@ -286,7 +278,7 @@ table.list i._btn {
     <table style="width: 100%;">
         <tr>
             <td>
-                <div class="path"></div>
+                <div class="path" id="path"></div>
             </td>
             <td style="width: 1%;">
                 <input type="text" id="file_name">
@@ -321,11 +313,23 @@ table.list i._btn {
 <div id="work_area">
     <div class="btns">&nbsp;
         <div class="btn-group">
-            <button type="button" class="btn btn-default">
+            <button type="button" class="btn btn-default" id="ok_save_file">
                 <i class="fa fa-save"></i>
             </button>
-            <button type="button" class="btn btn-default">
+            <button type="button" class="btn btn-default" id="cancel_edit_file">
                 <i class="fa fa-reply"></i>
+            </button>
+        </div>
+
+        <div class="btn-group" id="set_editor_font_size">
+            <button type="button" class="btn btn-default btn-danger" size="12">
+                <span style="font-size: 12px">A</span>
+            </button>
+            <button type="button" class="btn btn-default" size="16">
+                <span style="font-size: 16px">A</span>
+            </button>
+            <button type="button" class="btn btn-default" size="20">
+                <span style="font-size: 20px">A</span>
             </button>
         </div>
     </div>
@@ -336,8 +340,10 @@ table.list i._btn {
 <script type="text/javascript">
     var fop = new crud();
     dirid = 0;
+    fileid = 0;
 
     $(function () {
+        // add new file
         $("#btn_add_file").click(function () {
             var txt = $('#file_name').val().trim();
             if (txt == '') return;
@@ -348,6 +354,8 @@ table.list i._btn {
                 retrieveFile(dirid);
             });
         });
+
+        // add new folder
         $("#btn_add_folder").click(function () {
             var txt = $('#file_name').val().trim();
             if (txt == '') return;
@@ -358,6 +366,47 @@ table.list i._btn {
                 retrieveFile(dirid);
             });
         });
+
+        // save file content
+        $("#ok_save_file").click(function () {
+            var c = editor.getValue();
+            fop.saveFileContent(fileid, c, function (data) {
+            });
+            $("#work_area").hide(200);
+        });
+
+        // cancel edit file content
+        $("#cancel_edit_file").click(function () {
+            $("#work_area").hide(200);
+        });
+
+        // change folder
+        $("#path").click(function (e) {
+            var el = $(e.target);
+            var fid = el.data('fid');
+            if (typeof fid != 'undefined') {
+                retrieveFile(fid);
+            }
+        });
+
+        // set font size
+        $("#set_editor_font_size").click(function (e) {
+            var el = $(e.target);
+
+            var size = el.attr('size');
+            if (!size) {
+                el = el.parent();
+                size = el.attr('size');
+            }
+            if (typeof size != 'undefined') {
+                editor.setFontSize(parseInt(size));
+
+                $(this).find('button').removeClass('btn-danger');
+                el.addClass('btn-danger');
+            }
+        });
+
+
         // list sub files
         retrieveFile(0);
 
@@ -388,7 +437,7 @@ table.list i._btn {
                 });
             }
 
-            // edit file name
+            // start to edit file name
             else if (el.hasClass('edit')) {
                 var ipt = $(document.body).find('#edit_file_name_ipt_box');
                 if (ipt.length == 0) {
@@ -419,12 +468,22 @@ table.list i._btn {
 
             // cancel editing
             else if (el.hasClass('cancel')) {
-                console.log('canceling');
                 tr.find('span').show();
                 tr.find('i.ok').removeClass('ok').addClass('edit')
                         .removeClass('fa-check').addClass('fa-edit');
                 tr.find('i.cancel').removeClass('cancel').addClass('del');
                 tr.find('input').hide();
+            }
+            // accept editing
+            else if (el.hasClass('ok')) {
+                var name = $("#edit_file_name_ipt_box").val().trim();
+                if (name == '') return;
+
+                fop.renameFile(fid, name, function (data) {
+                    if (!data.error) {
+                        retrieveFile(dirid);
+                    }
+                });
             }
 
         });
@@ -438,10 +497,10 @@ table.list i._btn {
                 $("#work_area").show();
                 editor.setValue(data['content'] || '');
                 editor.resize();
-//                $("#content").html(data['content'] || '');
+                fileid = fid;
             } else if (data['files']) {
                 dirid = fid;
-                displaySubFiles(data['files']);
+                displaySubFiles(data);
             } else {
                 // todo: error handling
             }
@@ -453,7 +512,13 @@ table.list i._btn {
     // -----------------------------------------------------
 
     // show sub files
-    function displaySubFiles(files) {
+    function displaySubFiles(data) {
+        var paths = data['paths'];
+        $('<span>').data('fid', '0').html('/').appendTo($("#path").html(''));
+        $.each(paths, function (i, path) {
+            $('<span>').data('fid', path.id).html(path.name).appendTo($("#path"));
+        });
+        var files = data['files'];
         var p = $("#content");
         p.find('table').remove();
         var tbl = $('<table class="list">').appendTo(p);
@@ -493,9 +558,9 @@ table.list i._btn {
     });
 
     var editor = ace.edit($(".editor").get(0));
-    editor.setTheme("ace/theme/chrome");
+    editor.setTheme("ace/theme/eclipse");
     editor.setPrintMarginColumn(80);
-    editor.session.setMode("ace/mode/text");
+    editor.session.setMode("ace/mode/markdown");
     var doc = editor.getSession().doc;
     doc.on('change', function (e) {
         var txt = editor.getValue();
