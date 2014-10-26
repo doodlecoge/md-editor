@@ -273,7 +273,6 @@
 </style>
 </head>
 <body>
-
 <div id="tool_bar">
     <table style="width: 100%;">
         <tr>
