@@ -2,6 +2,8 @@ package me.hch.aciton;
 
 import com.google.gson.JsonObject;
 
+import javax.swing.*;
+
 /**
  * Created by huaiwang on 07/29/2014.
  */
@@ -11,6 +13,16 @@ public class ActionResult {
     private String data;
     public static final ActionResult SUCCESS;
     public static final ActionResult FAIL;
+
+    public ActionResult() {
+
+    }
+
+    public ActionResult(boolean error, String message, String data) {
+        this.error = error;
+        this.message = message;
+        this.data = data;
+    }
 
     static {
         SUCCESS = new ActionResult();
@@ -22,8 +34,8 @@ public class ActionResult {
     public String toString() {
         JsonObject jobj = new JsonObject();
         jobj.addProperty("error", error);
-        jobj.addProperty("message", message);
-        jobj.addProperty("data", data);
+        if (message != null) jobj.addProperty("message", message);
+        if (data != null) jobj.addProperty("data", data);
         return jobj.toString();
     }
 

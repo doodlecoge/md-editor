@@ -33,7 +33,8 @@ CREATE TABLE IF NOT EXISTS md.contents (
 INSERT INTO
   md.users (username, password, display_name)
 VALUES
-  ('huaichao', 'password', 'Huaichao Wang');
+  ('huaichao', 'password', 'Huaichao Wang'),
+  ('chaochao', 'password', 'Huaichao Wang');
 
 
 INSERT INTO
@@ -41,7 +42,7 @@ INSERT INTO
 VALUES
   ('huaichao', 'java notes', NULL, 'D'),
   ('huaichao', 'java notes', NULL, 'F'),
-  ('huaichao', 'spring', 1, 'D'),
+  ('chaochao', 'spring', 1, 'D'),
   ('huaichao', 'reflection', 1, 'D'),
   ('huaichao', 'ejb notes', 1, 'F'),
   ('huaichao', 'spring ws', 3, 'F'),

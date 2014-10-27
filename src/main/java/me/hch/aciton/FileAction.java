@@ -6,11 +6,14 @@ import me.hch.dao.ContentDao;
 import me.hch.dao.FileDao;
 import me.hch.model.Content;
 import me.hch.model.File;
+import me.hch.utils.AppHelper;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,40 +26,21 @@ import java.util.List;
 @Controller
 @RequestMapping("/file")
 public class FileAction {
-    public static final String username = "huaichao";
-
     @Autowired
     private FileDao fileDao;
     @Autowired
     ContentDao contentDao;
 
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.GET)
-    public String index() {
-        List<File> files = fileDao.getFiles(username);
-
-        if (files == null) return "[]";
-
-        StringBuilder json = new StringBuilder();
-        json.append("[");
-        boolean flag = false;
-        for (File file : files) {
-            if (flag) json.append(",");
-            else flag = true;
-
-            json.append(file.toJson());
-        }
-        json.append("]");
-        return json.toString();
-    }
-
-
-    @PreAuthorize("hasRole('USER')")
+    //    @PreAuthorize("hasRole('USER')")
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/{pid}",
             produces = "application/json; charset=utf-8")
     public String getSubfolders(@PathVariable int pid) {
         File curFile = fileDao.getFile(pid);
+
+        String login_username = AppHelper.getUsername();
+        if (curFile != null && !curFile.getUsername().equals(login_username))
+            return new ActionResult(true, "not permitted", null).toString();
 
         // if it is a file not folder, return file content
         if (curFile != null && curFile.getType() == File.FileType.F) {
@@ -69,7 +53,7 @@ public class FileAction {
         }
 
         JsonArray jarrFiles = new JsonArray();
-        List<File> files = fileDao.getChildren(username, pid);
+        List<File> files = fileDao.getChildren(login_username, pid);
         for (File file : files) {
             jarrFiles.add(file.toGson());
         }
@@ -91,7 +75,11 @@ public class FileAction {
     @ResponseBody
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ActionResult delete(@PathVariable int id) {
-        fileDao.deleteFile(id);
+        File file = fileDao.getFile(id);
+        String login_username = AppHelper.getUsername();
+        if (login_username != null && login_username.equals(file.getUsername())) {
+            fileDao.deleteFile(id);
+        }
         return ActionResult.SUCCESS;
     }
 
@@ -100,7 +88,7 @@ public class FileAction {
     public ActionResult add(@RequestParam(required = false) String name,
                             @RequestParam File.FileType type,
                             @RequestParam int pid) {
-        File file = fileDao.createFile(name, pid, type, username);
+        File file = fileDao.createFile(name, pid, type, AppHelper.getUsername());
         if (type == File.FileType.F) {
             contentDao.createEmptyContent(file.getId());
         }

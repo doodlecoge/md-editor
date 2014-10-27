@@ -61,7 +61,6 @@ public class FileDao extends TheDao {
         try {
             return (File) criteria.list().get(0);
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         } finally {
             if (session != null) session.close();

@@ -17,14 +17,14 @@
         <intercept-url pattern="/fonts" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/img/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
-        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <intercept-url pattern="/**" access="ROLE_USERa"/>
 
         <form-login login-page="/login_page"
                     login-processing-url="/login"
                     username-parameter="username"
                     password-parameter="password"
                     default-target-url="/explorer"
-                    authentication-failure-url="/login?login_error=1"/>
+                    authentication-failure-url="/login_page?login_error=1"/>
         <logout logout-url="/logout" logout-success-url="/logoutSuccess.html"/>
 
     </http>
