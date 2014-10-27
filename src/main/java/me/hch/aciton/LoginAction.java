@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by huaichao on 10/27/14.
  */
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/login_page")
 public class LoginAction {
     @RequestMapping(method = RequestMethod.GET)
     public String index() {

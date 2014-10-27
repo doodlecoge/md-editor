@@ -19,12 +19,14 @@
 
         <intercept-url pattern="/**" access="ROLE_USER"/>
 
-        <!-- Override default login and logout pages -->
-        <!--<form-login login-page="/login"-->
-                    <!--login-processing-url="/login"-->
-                    <!--default-target-url="/index.jsp"-->
-                    <!--authentication-failure-url="/login.html?login_error=1"/>-->
-        <!--<logout logout-url="/logout" logout-success-url="/logoutSuccess.html"/>-->
+        <form-login login-page="/login_page"
+                    login-processing-url="/login"
+                    username-parameter="username"
+                    password-parameter="password"
+                    default-target-url="/explorer"
+                    authentication-failure-url="/login?login_error=1"/>
+        <logout logout-url="/logout" logout-success-url="/logoutSuccess.html"/>
+
     </http>
 
     <beans:bean class="me.hch.security.MyUserDetailsService" id="detailsService"/>
