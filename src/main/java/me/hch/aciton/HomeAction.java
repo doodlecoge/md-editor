@@ -17,11 +17,11 @@ public class HomeAction {
     @Autowired
     private TheDao theDao;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap map) {
         User user = theDao.getUser("huaichao");
         System.out.println(user);
 
-        return "home";
+        return "index";
     }
 }

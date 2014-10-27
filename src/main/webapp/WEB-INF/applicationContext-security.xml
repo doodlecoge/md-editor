@@ -1,23 +1,35 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-       xmlns:security="http://www.springframework.org/schema/security"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-3.2.xsd
-        http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
-        http://www.springframework.org/schema/jdbc
-        http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
-        http://www.springframework.org/schema/security
-        http://www.springframework.org/schema/security/spring-security.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <bean id="grp" class="me.hch.SecurityConfig"/>
-    <bean id="authProvider" class="me.hch.AuthProvider"></bean>
-    <security:authentication-manager>
-        <security:authentication-provider ref="authProvider"/>
-    </security:authentication-manager>
-</beans>
+    <global-method-security secured-annotations="enabled"/>
+
+    <http auto-config="true">
+        <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <intercept-url pattern="/js/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/css/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/fonts" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/img/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+
+        <!-- Override default login and logout pages -->
+        <!--<form-login login-page="/login"-->
+                    <!--login-processing-url="/login"-->
+                    <!--default-target-url="/index.jsp"-->
+                    <!--authentication-failure-url="/login.html?login_error=1"/>-->
+        <!--<logout logout-url="/logout" logout-success-url="/logoutSuccess.html"/>-->
+    </http>
+
+    <beans:bean class="me.hch.security.MyUserDetailsService" id="detailsService"/>
+    <authentication-manager>
+        <authentication-provider user-service-ref="detailsService"/>
+    </authentication-manager>
+
+</beans:beans>

@@ -9,6 +9,8 @@ import me.hch.model.File;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +51,7 @@ public class FileAction {
     }
 
 
+    @PreAuthorize("hasRole('USER')")
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/{pid}",
             produces = "application/json; charset=utf-8")

@@ -337,203 +337,204 @@
 </div>
 
 <script type="text/javascript">
-    var fop = new crud();
-    dirid = 0;
-    fileid = 0;
+var fop = new crud();
+dirid = 0;
+fileid = 0;
 
-    $(function () {
-        // add new file
-        $("#btn_add_file").click(function () {
-            var txt = $('#file_name').val().trim();
-            if (txt == '') return;
+$(function () {
+    // add new file
+    $("#btn_add_file").click(function () {
+        var txt = $('#file_name').val().trim();
+        if (txt == '') return;
 
-            $.obj.dialog.show('adding file...', 200);
-            fop.createFile('F', txt, dirid, function () {
-                $.obj.dialog.close();
-                retrieveFile(dirid);
-            });
-        });
-
-        // add new folder
-        $("#btn_add_folder").click(function () {
-            var txt = $('#file_name').val().trim();
-            if (txt == '') return;
-
-            $.obj.dialog.show('adding folder...', 200);
-            fop.createFile('D', txt, dirid, function () {
-                $.obj.dialog.close();
-                retrieveFile(dirid);
-            });
-        });
-
-        // save file content
-        $("#ok_save_file").click(function () {
-            var c = editor.getValue();
-            fop.saveFileContent(fileid, c, function (data) {
-            });
-            $("#work_area").hide(200);
-        });
-
-        // cancel edit file content
-        $("#cancel_edit_file").click(function () {
-            $("#work_area").hide(200);
-        });
-
-        // change folder
-        $("#path").click(function (e) {
-            var el = $(e.target);
-            var fid = el.data('fid');
-            if (typeof fid != 'undefined') {
-                retrieveFile(fid);
-            }
-        });
-
-        // set font size
-        $("#set_editor_font_size").click(function (e) {
-            var el = $(e.target);
-
-            var size = el.attr('size');
-            if (!size) {
-                el = el.parent();
-                size = el.attr('size');
-            }
-            if (typeof size != 'undefined') {
-                editor.setFontSize(parseInt(size));
-
-                $(this).find('button').removeClass('btn-danger');
-                el.addClass('btn-danger');
-            }
-        });
-
-
-        // list sub files
-        retrieveFile(0);
-
-        // handle click on file item event
-        $("#content").click(function (e) {
-            var el = $(e.target);
-            var tr = el.closest('tr');
-            if (tr.length == 0) return;
-            var fid = tr.data('fid');
-
-            // click the file name then show sub files or show file content
-            if (el.get(0).nodeName.toLowerCase() == 'span') {
-                retrieveFile(fid);
-            }
-
-            // delete file
-            else if (el.hasClass('del')) {
-                $.obj.confirm.show('Waning!', 'Delte this file?', function (e) {
-                    $.obj.dialog.loading({
-                        "type": "DELETE",
-                        "url": "<%=request.getContextPath()%>/file/" + fid,
-                        "dataType": "json"
-                    }, 'loading...', function (data) {
-                        if (data.error == false)
-                            $.obj.dialog.close();
-                        retrieveFile(dirid);
-                    });
-                });
-            }
-
-            // start to edit file name
-            else if (el.hasClass('edit')) {
-                var ipt = $(document.body).find('#edit_file_name_ipt_box');
-                if (ipt.length == 0) {
-                    ipt = $('<input type="text" class="text" id="edit_file_name_ipt_box">')
-                            .hide().appendTo(document.body);
-                }
-
-                // cancel current editing
-                var td = ipt.parent();
-                if (td.get(0).nodeName.toLowerCase() == 'td') {
-                    td.find('span').show();
-                    td.parent().find('i.ok').removeClass('ok').addClass('edit')
-                            .removeClass('fa-check').addClass('fa-edit');
-                    td.parent().find('i.cancel').removeClass('cancel').addClass('del');
-                }
-
-                if (tr.find('.ipt').length > 0) return;
-                var a = tr.find('span').hide();
-                var name = a.html();
-
-                var td = tr.children().get(1);
-                ipt.show().val(name).appendTo(td).focus().select();
-                $(td).find('span').hide();
-                tr.find('.del').removeClass('del').addClass('cancel');
-                tr.find('.edit').removeClass('edit').addClass('ok')
-                        .removeClass('fa-edit').addClass('fa-check');
-            }
-
-            // cancel editing
-            else if (el.hasClass('cancel')) {
-                tr.find('span').show();
-                tr.find('i.ok').removeClass('ok').addClass('edit')
-                        .removeClass('fa-check').addClass('fa-edit');
-                tr.find('i.cancel').removeClass('cancel').addClass('del');
-                tr.find('input').hide();
-            }
-            // accept editing
-            else if (el.hasClass('ok')) {
-                var name = $("#edit_file_name_ipt_box").val().trim();
-                if (name == '') return;
-
-                fop.renameFile(fid, name, function (data) {
-                    if (!data.error) {
-                        retrieveFile(dirid);
-                    }
-                });
-            }
-
+        $.obj.dialog.show('adding file...', 200);
+        fop.createFile('F', txt, dirid, function () {
+            $.obj.dialog.close();
+            retrieveFile(dirid);
         });
     });
 
-    // get sub files or file content
-    // todo: add pagination for sub files
-    function retrieveFile(fid) {
-        fop.retriveFile(fid, function (data) {
-            if (typeof data['content'] != "undefined") {
-                $("#work_area").show();
-                editor.setValue(data['content'] || '');
-                editor.resize();
-                fileid = fid;
-            } else if (data['files']) {
-                dirid = fid;
-                displaySubFiles(data);
-            } else {
-                // todo: error handling
+    // add new folder
+    $("#btn_add_folder").click(function () {
+        var txt = $('#file_name').val().trim();
+        if (txt == '') return;
+
+        $.obj.dialog.show('adding folder...', 200);
+        fop.createFile('D', txt, dirid, function () {
+            $.obj.dialog.close();
+            retrieveFile(dirid);
+        });
+    });
+
+    // save file content
+    $("#ok_save_file").click(function () {
+        var c = editor.getValue();
+        fop.saveFileContent(fileid, c, function (data) {
+        });
+        $("#work_area").hide(200);
+    });
+
+    // cancel edit file content
+    $("#cancel_edit_file").click(function () {
+        $("#work_area").hide(200);
+    });
+
+    // change folder
+    $("#path").click(function (e) {
+        var el = $(e.target);
+        var fid = el.data('fid');
+        if (typeof fid != 'undefined') {
+            retrieveFile(fid);
+        }
+    });
+
+    // set font size
+    $("#set_editor_font_size").click(function (e) {
+        var el = $(e.target);
+
+        var size = el.attr('size');
+        if (!size) {
+            el = el.parent();
+            size = el.attr('size');
+        }
+        if (typeof size != 'undefined') {
+            editor.setFontSize(parseInt(size));
+
+            $(this).find('button').removeClass('btn-danger');
+            el.addClass('btn-danger');
+        }
+    });
+
+
+    // list sub files
+    retrieveFile(0);
+
+    // handle click on file item event
+    $("#content").click(function (e) {
+        var el = $(e.target);
+        var tr = el.closest('tr');
+        if (tr.length == 0) return;
+        var fid = tr.data('fid');
+
+        // click the file name then show sub files or show file content
+        if (el.get(0).nodeName.toLowerCase() == 'span') {
+            retrieveFile(fid);
+        }
+
+        // delete file
+        else if (el.hasClass('del')) {
+            $.obj.confirm.show('Waning!', 'Delte this file?', function (e) {
+                $.obj.dialog.loading({
+                    "type": "DELETE",
+                    "url": "<%=request.getContextPath()%>/file/" + fid,
+                    "dataType": "json"
+                }, 'loading...', function (data) {
+                    if (data.error == false)
+                        $.obj.dialog.close();
+                    retrieveFile(dirid);
+                });
+            });
+        }
+
+        // start to edit file name
+        else if (el.hasClass('edit')) {
+            var ipt = $(document.body).find('#edit_file_name_ipt_box');
+            if (ipt.length == 0) {
+                ipt = $('<input type="text" class="text" id="edit_file_name_ipt_box">')
+                        .hide().appendTo(document.body);
             }
-        });
-    }
 
-    // -----------------------------------------------------
-    // - callbacks
-    // -----------------------------------------------------
+            // cancel current editing
+            var td = ipt.parent();
+            if (td.get(0).nodeName.toLowerCase() == 'td') {
+                td.find('span').show();
+                td.parent().find('i.ok').removeClass('ok').addClass('edit')
+                        .removeClass('fa-check').addClass('fa-edit');
+                td.parent().find('i.cancel').removeClass('cancel').addClass('del');
+            }
 
-    // show sub files
-    function displaySubFiles(data) {
-        var paths = data['paths'];
-        $('<span>').data('fid', '0').html('/').appendTo($("#path").html(''));
-        $.each(paths, function (i, path) {
-            $('<span>').data('fid', path.id).html(path.name).appendTo($("#path"));
-        });
-        var files = data['files'];
-        var p = $("#content");
-        p.find('table').remove();
-        var tbl = $('<table class="list">').appendTo(p);
-        $.each(files, function (i, file) {
-            var cls = file.type == 'D' ? 'fa-folder-o' : 'fa-file-text-o';
-            var even = i % 2 == 1 ? ' class="even"' : '';
-            var str = '' +
-                    '<tr' + even + '>' +
-                    '   <td class="c1"><i class="fa ' + cls + '"></i></td>' +
-                    '   <td class="c2"><span>' + file.name + '</span></td>' +
-                    '   <td class="c3"><i class="_btn fa fa-edit edit"></i></td>' +
-                    '   <td class="c4"><i class="_btn fa fa-times del"></i></td>' +
-                    '</tr>';
-            $(str).data('fid', file.id).appendTo(tbl);
-        });
-    }
+            if (tr.find('.ipt').length > 0) return;
+            var a = tr.find('span').hide();
+            var name = a.html();
+
+            var td = tr.children().get(1);
+            ipt.show().val(name).appendTo(td).focus().select();
+            $(td).find('span').hide();
+            tr.find('.del').removeClass('del').addClass('cancel');
+            tr.find('.edit').removeClass('edit').addClass('ok')
+                    .removeClass('fa-edit').addClass('fa-check');
+        }
+
+        // cancel editing
+        else if (el.hasClass('cancel')) {
+            tr.find('span').show();
+            tr.find('i.ok').removeClass('ok').addClass('edit')
+                    .removeClass('fa-check').addClass('fa-edit');
+            tr.find('i.cancel').removeClass('cancel').addClass('del');
+            tr.find('input').hide();
+        }
+        // accept editing
+        else if (el.hasClass('ok')) {
+            var name = $("#edit_file_name_ipt_box").val().trim();
+            if (name == '') return;
+
+            fop.renameFile(fid, name, function (data) {
+                if (!data.error) {
+                    retrieveFile(dirid);
+                }
+            });
+        }
+
+    });
+});
+
+// get sub files or file content
+// todo: add pagination for sub files
+function retrieveFile(fid) {
+    fop.retriveFile(fid, function (data) {
+        if (typeof data['content'] != "undefined") {
+            $("#work_area").show(200, function () {
+                editor.resize();
+            });
+            editor.setValue(data['content'] || '');
+            fileid = fid;
+        } else if (data['files']) {
+            dirid = fid;
+            displaySubFiles(data);
+        } else {
+            // todo: error handling
+        }
+    });
+}
+
+// -----------------------------------------------------
+// - callbacks
+// -----------------------------------------------------
+
+// show sub files
+function displaySubFiles(data) {
+    var paths = data['paths'];
+    $('<span>').data('fid', '0').html('/').appendTo($("#path").html(''));
+    $.each(paths, function (i, path) {
+        $('<span>').data('fid', path.id).html(path.name).appendTo($("#path"));
+    });
+    var files = data['files'];
+    var p = $("#content");
+    p.find('table').remove();
+    var tbl = $('<table class="list">').appendTo(p);
+    $.each(files, function (i, file) {
+        var cls = file.type == 'D' ? 'fa-folder-o' : 'fa-file-text-o';
+        var even = i % 2 == 1 ? ' class="even"' : '';
+        var str = '' +
+                '<tr' + even + '>' +
+                '   <td class="c1"><i class="fa ' + cls + '"></i></td>' +
+                '   <td class="c2"><span>' + file.name + '</span></td>' +
+                '   <td class="c3"><i class="_btn fa fa-edit edit"></i></td>' +
+                '   <td class="c4"><i class="_btn fa fa-times del"></i></td>' +
+                '</tr>';
+        $(str).data('fid', file.id).appendTo(tbl);
+    });
+}
 
 
 </script>
