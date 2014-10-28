@@ -16,7 +16,7 @@
         <intercept-url pattern="/a/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/js/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/css/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/fonts" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/fonts/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/img/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
         <intercept-url pattern="/**" access="ROLE_USERa"/>
