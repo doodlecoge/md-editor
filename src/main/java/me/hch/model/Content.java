@@ -9,7 +9,7 @@ import javax.persistence.Table;
  * Created by hch on 2014/7/25.
  */
 @Entity
-@Table(name = "contents", schema = "md")
+@Table(name = "contents")
 public class Content {
     @Id
     @Column(name = "file_id")

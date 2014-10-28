@@ -14,7 +14,7 @@ import java.util.Set;
  * Created by hch on 2014/7/13.
  */
 @Entity
-@Table(name = "files", schema = "md")
+@Table(name = "files")
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public class TheDao {
     @Autowired
-    @Qualifier(value = "h2Sf")
+    @Qualifier(value = "mysql_sf")
     protected SessionFactory sessionFactory;
 
     public User getUser(String username) {

@@ -7,7 +7,7 @@ import java.util.List;
  * Created by hch on 2014/7/13.
  */
 @Entity
-@Table(name = "users", schema = "md")
+@Table(name = "users")
 public class User {
     @Id
     private String username;
