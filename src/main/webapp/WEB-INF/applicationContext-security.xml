@@ -12,6 +12,8 @@
     <http auto-config="true">
         <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
+        <intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/a/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/js/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/css/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/fonts" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
@@ -25,7 +27,7 @@
                     password-parameter="password"
                     default-target-url="/explorer"
                     authentication-failure-url="/login_page?login_error=1"/>
-        <logout logout-url="/logout" logout-success-url="/logoutSuccess.html"/>
+        <logout logout-url="/logout" logout-success-url="/login"/>
 
     </http>
 

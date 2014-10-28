@@ -206,6 +206,8 @@
 
     #file_name:focus {
         width: 200px;
+        border-color: #51a7e8;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 5px rgba(81, 167, 232, 0.5);
     }
 
     #work_area {
@@ -276,6 +278,9 @@
 <div id="tool_bar">
     <table style="width: 100%;">
         <tr>
+            <td style="width: 1%;">
+                <a href="<%=request.getContextPath()%>/">Home</a>
+            </td>
             <td>
                 <div class="path" id="path"></div>
             </td>

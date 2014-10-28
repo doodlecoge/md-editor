@@ -67,6 +67,20 @@ public class FileDao extends TheDao {
         }
     }
 
+    public List<File> getFiles(int page, int size) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(File.class);
+        criteria.add(Restrictions.eq("type", File.FileType.F));
+
+        try {
+            return criteria.list();
+        } catch (Exception e) {
+            return null;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
     public void deleteFile(int id) {
         Session session = null;
         try {

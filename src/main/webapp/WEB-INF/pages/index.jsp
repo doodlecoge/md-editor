@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: huaichao
@@ -9,8 +10,30 @@
 <html>
 <head>
     <title>Home</title>
+    <style type="text/css">
+        .articles {
+
+        }
+        .articles li {
+            line-height: 25px;
+        }
+        .articles li a {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-hello there!
+
+<ul class="articles">
+
+    <c:forEach items="${files}" var="file">
+        <li>
+            <a href="<c:url value="/a/${file.id}"/>">
+                <c:out value="${file.name}"/>
+            </a>
+        </li>
+    </c:forEach>
+</ul>
+
 </body>
 </html>
