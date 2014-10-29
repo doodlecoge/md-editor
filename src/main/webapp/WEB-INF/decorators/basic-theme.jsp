@@ -83,6 +83,7 @@
             font-size: 60px;
             color: #f0f0f0;
             line-height: 100px;
+            font-weight: bold;
         }
 
         #content {
@@ -145,7 +146,7 @@
 </div>
 <div id="footer">
     <div class="c">
-        &copy; Online Notes, 2014. Want to be a writer, please contact us hchwang001@163.com.
+        &copy; Online Notes, 2014. Wanna be a writer, please contact us <b>hchwang001@163.com</b>.
     </div>
 </div>
 </body>

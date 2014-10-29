@@ -8,45 +8,50 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title></title>
+    <title>Login</title>
+    <style type="text/css">
+        td {
+            line-height: 40px;
+        }
+
+        input[type="text"], input[type="password"] {
+            height: 25px;
+            line-height: 25px;
+            width: 300px;
+        }
+
+        input[type="submit"] {
+            font-size: 16px;
+            box-sizing: content-box;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            border-radius: 30px;
+        }
+    </style>
 </head>
 <body>
 <form action="${pageContext.request.contextPath}/login" method="post">
     <table>
         <tr>
             <td>Username:</td>
-            <td><input type='text' name='username' /></td>
+            <td><input type='text' name='username'/></td>
         </tr>
         <tr>
             <td>Password:</td>
             <td><input type='password' name='password'></td>
         </tr>
         <tr>
-            <td colspan='2'><input name="submit" type="submit" value="Submit"></td>
+            <td></td>
+            <td><input name="submit" type="submit" value="Submit"></td>
         </tr>
     </table>
+
+
+    <hr/>
+
+    <span style="color: darkgreen;">
+    Contact us <b>hchwang001@163.com</b> to get an account for free!
+    </span>
 </form>
-
-<%--<div tiles:fragment="content">--%>
-    <%--<form name="f" th:action="@{/login}" method="post">--%>
-        <%--<fieldset>--%>
-            <%--<legend>Please Login</legend>--%>
-            <%--<div th:if="${param.error}" class="alert alert-error">--%>
-                <%--Invalid username and password.--%>
-            <%--</div>--%>
-            <%--<div th:if="${param.logout}" class="alert alert-success">--%>
-                <%--You have been logged out.--%>
-            <%--</div>--%>
-            <%--<label for="username">Username</label>--%>
-            <%--<input type="text" id="username" name="username"/>--%>
-            <%--<label for="password">Password</label>--%>
-            <%--<input type="password" id="password" name="password"/>--%>
-
-            <%--<div class="form-actions">--%>
-                <%--<button type="submit" class="btn">Log in</button>--%>
-            <%--</div>--%>
-        <%--</fieldset>--%>
-    <%--</form>--%>
-<%--</div>--%>
 </body>
 </html>
